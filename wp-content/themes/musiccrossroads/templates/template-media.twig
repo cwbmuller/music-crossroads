@@ -1,0 +1,257 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper media-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-md-6  pb-5" >
+                    <div class="text-white ">{{ post.content }}</div>
+                </div>
+
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="media-content" class="container-fluid">
+
+        <div class="row ">
+
+            <div class="col-12 content-area bg-m-grey">
+                <div class="container">
+                    <!-- Nav tabs -->
+
+                    <ul class="nav my-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active m-0 py-0 px-3 font-eveleth text-white" data-toggle="tab" href="#artists" role="tab">{{ pll__('Artists') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 font-eveleth text-white" data-toggle="tab" href="#music" role="tab">{{ pll__('Music') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 m-0 font-eveleth text-white" data-toggle="tab" href="#gallery" role="tab">{{ pll__('Gallery') }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div><!-- #primary -->
+            <div class="col-12 content-area">
+                <div class="container px-0">
+                    <!-- Tab panes -->
+                    <div id="outer-tab" class="tab-content  py-5 px-md-4">
+
+                        <div class="tab-pane active" id="artists" role="tabpanel">
+                            <h2 class="pb-5  text-uppercase">{{ pll__('Artists') }}</h2>
+                            <div class="mb-4">
+                                <h5 class="d-inline-block mb-md-0 mb-3">{{ pll__('Genre') }}:</h5>
+                                <div class="input-group limit-width mb-md-0 mb-3 mr-md-0  mr-4">
+                                    <select id="genre-select" class="form-control artist-select custom-select">
+                                        <option value="" selected>{{ pll__('All Genres') }}</option>
+                                        {% for genre in genres %}
+                                            <option value="{{ genre.slug }}">{{ genre.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label for="select-1"></label>
+                                </div>
+                                <h5 class="d-inline-block ml-md-4 mb-md-0 mb-3">{{ pll__('Country') }}:</h5>
+                                <div class="input-group limit-width mb-md-0 mb-3">
+                                    <select id="country-select" class="form-control artist-select custom-select">
+                                        <option value="" selected>{{ pll__('All Countries') }}</option>
+                                        {% for country in countries %}
+                                            {% if country.slug != 'brussels' %}
+                                                <option value="{{ country.slug }}">{{ country.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <label for="select-1"></label>
+                                </div>
+                            </div>
+                            <div class="loading-results loading-results-artist"></div>
+                                <div id="artist-container" class="row">
+                                    {% for artist in artists %}
+                                        <div class="col-md-4 mb-4">
+                                            <div class="artist-block square-me" style="{{  mixin.bgImg( fn('wp_get_attachment_image_url',artist.thumbnail.id, medium),0.3) }}">
+                                                <div class="inner">
+                                                    <a href="{{ artist.link}}">
+                                                        <div class="p-4" style="position: absolute; ">
+                                                            {% for term in artist.terms('category') %}
+                                                                <p class="d-inline-block m-1 font-eveleth text-orange">{{term.name}}</p>
+                                                            {% endfor %}
+                                                            <h3 class="mb-3 font-eveleth text-white">{{artist.title}}</h3>
+                                                            <h5 class="mb-2 font-eveleth text-orange">{{ artist.terms('music_genres')[0].name}}</h5>
+                                                            <div class=" text-white">{{ artist.content|length > 120 ? artist.content|slice(0, 120) ~ '...' : artist.content }}</div>
+                                                            <span class="cta-btn text-orange text-white text-uppercase ">{{ pll__('View artist') }}</span>
+                                                        </div>
+                                                    </a>
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                        </div>
+
+                        <div class="tab-pane" id="music" role="tabpanel">
+                            <h2 class="pb-5 text-uppercase">{{ pll__('Music') }}</h2>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="input-group">
+                                        <select id="music-select" class="form-control music-select custom-select">
+                                            {% for artist in artists %}
+                                                <option value="{{ artist.ID }}">{{ artist.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="select-1"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="loading-results loading-results-music"></div>
+                                <div class="col-12">
+                                    <div id="music-container" class="row">
+                                        <div class="col-12">
+                                            {% if artists[0]._soundcloud_embed  %}
+                                                {{ artists[0]._soundcloud_embed }}
+                                            {% else %}
+                                                <h3>{{ pll__('There is no music available for this artist') }}</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="gallery" role="tabpanel">
+                            <div class=" "></div>
+                            <ul class="nav my-3 gallery-menu" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active m-0 py-0 px-3 font-eveleth text-d-grey" data-toggle="tab" href="#mc-images" role="tab"><h2 class=" text-uppercase">{{ pll__('Images') }}</h2></a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link py-0 m-0 px-3 font-eveleth text-d-grey" data-toggle="tab" href="#mc-videos" role="tab"><h2 class=" text-uppercase">{{ pll__('Videos') }}</h2></a>
+                                </li>
+                            </ul>
+                            <div id="inner-tab" class="tab-content  py-4 px-4">
+
+                                <div class="tab-pane active" id="mc-images" role="tabpanel">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="input-group">
+                                                <select id="images-select" class="form-control images-select custom-select">
+                                                    {% for artist in artists %}
+                                                        <option value="{{ artist.ID }}">{{ artist.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <label for="select-1"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                        </div>
+                                        <div class="loading-results loading-results-images"></div>
+                                        <div class="col-12">
+
+                                            <div id="images-container" class="row">
+                                                {% if artists[0].get_field('_artist_gallery')  %}
+                                                    {% for image in artists[0].get_field('_artist_gallery') %}
+                                                        <div class="col-md-4 mb-4">
+                                                            <div class="artist-block square-me" style="{{  mixin.bgImg( fn('wp_get_attachment_image_url',image.id, medium),0.3) }}">
+                                                                <a href="{{ fn('wp_get_attachment_image_url',image.id,large)}}" data-rel="lightbox">
+
+                                                                <div class="inner">
+
+
+
+
+                                                                </div>
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h3>{{ pll__('There are images avialable for this artist') }}</h3>
+                                                {% endif %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="mc-videos" role="tabpanel">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="input-group">
+                                            <select id="videos-select" class="form-control videos-select custom-select">
+                                                {% for artist in artists %}
+                                                    <option value="{{ artist.ID }}">{{ artist.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label for="select-1"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="loading-results loading-results-videos"></div>
+                                    <div id="videos-container">
+                                        {% if artists[0].get_field('_artist_videos')  %}
+                                            {% for video in artists[0].get_field('_artist_videos') %}
+                                                <div class="col-md-6 mb-4 ">
+                                                    <div class="video-box">
+                                                    {{ video.video_url }}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <h3>{{ pll__('There are no videos available for this artist') }}</h3>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div><!-- #primary -->
+
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+
+
+
+{% endblock %}

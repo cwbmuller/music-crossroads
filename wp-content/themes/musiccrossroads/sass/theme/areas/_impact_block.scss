@@ -1,0 +1,20 @@
+#impact-content {
+  ul {
+    list-style-type: none;
+    a.nav-link.active {
+      position: relative;
+      &:after {
+        width: 0;
+        position: absolute;
+        left: -2.5rem;
+        top: 50%;
+        transform: translatey(-50%);
+        height: 0;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        content: '';
+        border-right: 20px solid $mc-green;
+      }
+    }
+  }
+}

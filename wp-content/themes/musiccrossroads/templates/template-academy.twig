@@ -1,0 +1,227 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper academy-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-md-6  pb-5" >
+                    <div class="text-white ">{{ post.get_field('header_excerpt') }}</div>
+                </div>
+                <div class="col-md-6  pb-5" >
+                <div class="float-right" >
+                {% if post.prev %}
+                    <a class=" button  bg-nwp-grey p-2 text-white float-left {{post.prev.link|length ? '' : 'invisible'}}"  href="{{post.prev.link}}">{{ source('media/nav-arrow-left.svg') }}</a >
+
+                {% endif %}
+                {% if post.next %}
+                    <a class="button bg-nwp-grey p-2 text-white float-right {{post.next.link|length ? '' : 'invisible'}}" href="{{post.next.link}}">{{ source('media/nav-arrow-right.svg') }}</a >
+                {% endif %}
+                </div>
+                </div>
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="academy-content" class="container-fluid">
+
+        <div class="row ">
+
+            <div class="col-12 content-area bg-brown">
+                <div class="container">
+                    <!-- Nav tabs -->
+
+                    <ul class="nav my-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active m-0 py-0 px-3 font-eveleth text-white" data-toggle="tab" href="#about" role="tab">{{ pll__('About') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 font-eveleth text-white" data-toggle="tab" href="#tutorials" role="tab">{{ pll__('Tutorials') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 m-0 font-eveleth text-white" data-toggle="tab" href="#curriculum" role="tab">{{ pll__('Curriculum') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 font-eveleth text-white" data-toggle="tab" href="#activities" role="tab">{{ pll__('Activities') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3  font-eveleth text-white" data-toggle="tab" href="#team" role="tab">{{ pll__('Team') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3  font-eveleth text-white" data-toggle="tab" href="#contact" role="tab">{{ pll__('Contact') }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div><!-- #primary -->
+            <div class="col-12 content-area bg-green">
+                <div class="container">
+                    <!-- Tab panes -->
+                    <div class="tab-content  py-5 px-4">
+
+                        <div class="tab-pane active" id="about" role="tabpanel">
+                            <h2 class="pb-5 text-white text-uppercase">{{ pll__('About') }} {{ post.title }}</h2>
+                            <div class="text-white">
+                                {{ post.content }}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tutorials" role="tabpanel">
+                            <h2 class="pb-5 text-white text-uppercase">{{ pll__('Tutorials') }}</h2>
+                            <div class="row">
+                            {% for item in post.get_field('mc_tutorials') %}
+                                <div class="col-md-6 text-center pb-3 mb-4 pane-block">
+                                    <h3 class="font-eveleth pb-3">{{ item.title }}</h3>
+                                    <div class="video-box">
+                                        {{ item.youtube_link }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="curriculum" role="tabpanel">
+                            <h2 class="pb-5 text-white text-uppercase">{{ pll__('Curriculum') }}</h2>
+                            <div class="row">
+                                {% for item in post.get_field('mc_curriculums') %}
+                                    <div class="col-md-6 text-center pane-block" >
+                                        <h3 class="font-eveleth pb-3 ">{{ item.title }}</h3>
+                                        <a href="{{ item.pdf }}" class="text-brown" target="_blank"><i class="fa fa-file-pdf-o"></i></br><span class="mt-2"><small>{{ pll__('Click to download') }}</small></span></a>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="activities" role="tabpanel">
+                            <h2 class="pb-4 text-white text-uppercase">{{ pll__('Activities') }}</h2>
+                            <div class="pb-4 text-white">
+                                {{ post.get_field('activities_description') }}
+                            </div>
+                            <div class="row  ">
+                                {% for activity in post.get_field('mc_activities') %}
+
+                                    <div class="col-md-4 mb-4 ">
+                                        {%  set newsData = {
+                                        link : activity.link,
+                                        image : activity.image,
+                                        title : activity.title,
+                                        excerpt : activity.content,
+
+                                        } %}
+
+                                        {{ mixin.newsBlock(newsData) }}
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="team" role="tabpanel">
+                            <h2 class="pb-4 text-white text-uppercase">{{ post.title }} {{ pll__('Team') }}</h2>
+                            <div class=" pb-4 text-white">
+                                {{ post.get_field('team_description') }}
+                            </div>
+                            <div class="row no-gutters">
+                                {%  set cat = '' %}
+                                {%  set count = 1 %}
+                                {% for member in team %}
+                                    {% if member.role.slug != cat %}
+                                        <div class="square-me col-md-3 my-3 text-center text-white {% if count is odd %}bg-orange{% endif %} {% if count is even %}bg-brown{% endif %}">
+                                            <div class="inner">
+                                                <h4 class="font-eveleth center-me">{{  member.role.name }}</h4>
+                                            </div>
+                                        </div>
+                                        {%  set count = count + 1 %}
+                                    {% endif %}
+                                    {%  set cat = member.role.slug %}
+
+                                    <div data-content="{{ member.content }}" data-name="{{ member.post_title }}" data-image="{{ fn('wp_get_attachment_image_url',member._thumbnail_id,'full') }}" data-tag="{{ member.post_title }}" data-cat="{{ cat|capitalize }}" class="square-me team-square col-md-3 my-3 text-center " style="{{ mixin.bgImg(fn('wp_get_attachment_image_url',member._thumbnail_id,'medium')) }}">
+                                        <div class="inner">
+                                            <h4 class="font-eveleth team-name center-me">{{  member.post_title }}</h4>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="contact" role="tabpanel">
+                            <h2 class="pb-5 text-white text-uppercase">{{ pll__('Contact') }} {{ post.title }}</h2>
+                            <div class="row ">
+                                <div class="col-md-6 text-center "  >
+                                    <iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q={{ post.get_field('mc_map').lat }},{{ post.get_field('mc_map').lng }}&amp;key=AIzaSyAoosYa_BIYD1SNc6JTKnYVEei2OZhw2NM"></iframe>
+
+
+                                </div>
+                                <div class="col-md-6  text-white "  >
+                                    <div class="row my-4">
+                                        <div class="col-2 text-center">
+                                            {{ source('media/pointer.svg') }}
+
+                                        </div>
+                                        <div class="col-10">
+
+                                            <p>{{ post.mc_address }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-2 text-center">
+                                            {{ source('media/cellphone.svg') }}
+
+                                        </div>
+                                        <div class="col-10">
+
+                                            <a class="text-white " href="tel:{{ post.phone }}">{{ post.mc_phone }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-2 text-center">
+                                            {{ source('media/envelope.svg') }}
+
+                                        </div>
+                                        <div class="col-10">
+
+                                            <a class="text-white " href="mailto:{{ post.mc_email }}">{{ post.mc_email }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                </div>
+            </div><!-- #primary -->
+
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+    {% embed "template-team-modal.twig" %}
+
+    {% endembed %}
+
+
+
+
+{% endblock %}

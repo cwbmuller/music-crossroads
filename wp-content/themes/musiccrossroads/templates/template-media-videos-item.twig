@@ -1,0 +1,15 @@
+{% import "mixins.twig" as mixin %}
+
+{% block content %}
+    {% if post.get_field('_artist_videos')  %}
+        {% for video in post.get_field('_artist_videos') %}
+            <div class="col-md-6 mb-4 ">
+                <div class="video-box">
+                    {{ video.video_url }}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3>{{ pll__('There are no videos available for this artist') }}</h3>
+    {% endif %}
+{% endblock %}

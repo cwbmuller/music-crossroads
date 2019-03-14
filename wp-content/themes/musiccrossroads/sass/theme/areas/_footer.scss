@@ -1,0 +1,9 @@
+#wrapper-footer {
+
+  .subscribe-block {
+    border-left:1px solid white;
+    @include breakpoint(phone) {
+      border: none;
+    }
+  }
+}

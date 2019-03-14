@@ -1,0 +1,254 @@
+/*
+ *
+ * All OpenType features and all extended glyphs have been removed.
+ *
+ * The fonts included in this stylesheet are subject to the End User License you purchased
+ * from Yellow Design Studio. The fonts are protected under domestic and international trademark and 
+ * copyright law. You are prohibited from modifying, reverse engineering, duplicating, or
+ * distributing this font software.
+ *
+ * (c) 2010-2014 Yellow Design Studio
+ *
+ *
+ *
+ *
+ */
+
+
+
+@font-face {
+    font-family: 'eveleth_regularbold';
+    src: url('evelethbold-webfont.eot');
+    src: url('evelethbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethbold-webfont.woff') format('woff'),
+         url('evelethbold-webfont.ttf') format('truetype'),
+         url('evelethbold-webfont.svg#eveleth_regularbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethclean_regular';
+    src: url('evelethclean-webfont.eot');
+    src: url('evelethclean-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethclean-webfont.woff') format('woff'),
+         url('evelethclean-webfont.ttf') format('truetype'),
+         url('evelethclean-webfont.svg#evelethclean_regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethclean_shadow';
+    src: url('evelethcleanshadow-webfont.eot');
+    src: url('evelethcleanshadow-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethcleanshadow-webfont.woff') format('woff'),
+         url('evelethcleanshadow-webfont.ttf') format('truetype'),
+         url('evelethcleanshadow-webfont.svg#evelethclean_shadow') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethclean_thin';
+    src: url('evelethcleanthin-webfont.eot');
+    src: url('evelethcleanthin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethcleanthin-webfont.woff') format('woff'),
+         url('evelethcleanthin-webfont.ttf') format('truetype'),
+         url('evelethcleanthin-webfont.svg#evelethclean_thin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_dot_regularbold';
+    src: url('evelethdotbold-webfont.eot');
+    src: url('evelethdotbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethdotbold-webfont.woff') format('woff'),
+         url('evelethdotbold-webfont.ttf') format('truetype'),
+         url('evelethdotbold-webfont.svg#eveleth_dot_regularbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_dotlight';
+    src: url('evelethdotlight-webfont.eot');
+    src: url('evelethdotlight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethdotlight-webfont.woff') format('woff'),
+         url('evelethdotlight-webfont.ttf') format('truetype'),
+         url('evelethdotlight-webfont.svg#eveleth_dotlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethicons';
+    src: url('evelethicons-webfont.eot');
+    src: url('evelethicons-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethicons-webfont.woff') format('woff'),
+         url('evelethicons-webfont.ttf') format('truetype'),
+         url('evelethicons-webfont.svg#evelethicons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_dotregular';
+    src: url('evelethdotregular-webfont.eot');
+    src: url('evelethdotregular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethdotregular-webfont.woff') format('woff'),
+         url('evelethdotregular-webfont.ttf') format('truetype'),
+         url('evelethdotregular-webfont.svg#eveleth_dotregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethlight';
+    src: url('evelethlight-webfont.eot');
+    src: url('evelethlight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethlight-webfont.woff') format('woff'),
+         url('evelethlight-webfont.ttf') format('truetype'),
+         url('evelethlight-webfont.svg#evelethlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_regularregular';
+    src: url('evelethregular-webfont.eot');
+    src: url('evelethregular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethregular-webfont.woff') format('woff'),
+         url('evelethregular-webfont.ttf') format('truetype'),
+         url('evelethregular-webfont.svg#eveleth_regularregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethshadow';
+    src: url('evelethshadow-webfont.eot');
+    src: url('evelethshadow-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethshadow-webfont.woff') format('woff'),
+         url('evelethshadow-webfont.ttf') format('truetype'),
+         url('evelethshadow-webfont.svg#evelethshadow') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'evelethshapes';
+    src: url('evelethshapes-webfont.eot');
+    src: url('evelethshapes-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethshapes-webfont.woff') format('woff'),
+         url('evelethshapes-webfont.ttf') format('truetype'),
+         url('evelethshapes-webfont.svg#evelethshapes') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_slantregular';
+    src: url('evelethslantregular-webfont.eot');
+    src: url('evelethslantregular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethslantregular-webfont.woff') format('woff'),
+         url('evelethslantregular-webfont.ttf') format('truetype'),
+         url('evelethslantregular-webfont.svg#eveleth_slantregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_slantbold';
+    src: url('evelethslantbold-webfont.eot');
+    src: url('evelethslantbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethslantbold-webfont.woff') format('woff'),
+         url('evelethslantbold-webfont.ttf') format('truetype'),
+         url('evelethslantbold-webfont.svg#eveleth_slantbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleth_slantlight';
+    src: url('evelethslantlight-webfont.eot');
+    src: url('evelethslantlight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('evelethslantlight-webfont.woff') format('woff'),
+         url('evelethslantlight-webfont.ttf') format('truetype'),
+         url('evelethslantlight-webfont.svg#eveleth_slantlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'eveleththin';
+    src: url('eveleththin-webfont.eot');
+    src: url('eveleththin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('eveleththin-webfont.woff') format('woff'),
+         url('eveleththin-webfont.ttf') format('truetype'),
+         url('eveleththin-webfont.svg#eveleththin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

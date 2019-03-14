@@ -1,0 +1,149 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper home-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header>
+        <div  id="header" class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-md-12 window-height p-5" style="{{ mixin.bgImg(post.thumbnail.src,0)}}">
+                    <h1 class="text-white text-uppercase" style="line-height: 1.5">{{ post._header_title }}</h1>
+
+                    <div class="header-nav-down hidden-sm-down">
+                        <a href="#_about" class="text-white"><i class="fa fa-arrow-circle-o-left  mr-3"></i>{{ pll__('About us') }} {{ source('media/rectangle-h.svg') }}</a>
+
+                        <a href="#_countries" class="text-white"><i class="fa fa-arrow-circle-o-left mr-3"></i>{{ pll__('Academies') }} {{ source('media/rectangle-h.svg') }}</a>
+                        <a href="#_impact" class="text-white"><i class="fa fa-arrow-circle-o-left mr-3"></i>{{ pll__('Impact') }} {{ source('media/rectangle-h.svg') }}</a>
+                        <a href="#_news" class="text-white"><i class="fa fa-arrow-circle-o-left mr-3"></i>{{ pll__('News') }} {{ source('media/rectangle-h.svg') }}</a>
+                        <a href="#_donate" class="text-white"><i class="fa fa-arrow-circle-o-left mr-3"></i>{{ pll__('Donate') }} {{ source('media/rectangle-h.svg') }}</a>
+                    </div>
+                </div>
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="about-content" class="container-fluid" style="{{ mixin.bgImgR(post.get_field('_about_band_image'),0)}}">
+        <a name="_about"></a>
+        <div class="row   ">
+
+            <div id="primary" class="window-height mc-angled-green text-white col-md-8  content-area">
+                <div class="row window-height  align-items-center">
+                    <div class="col-12 p-5  ">
+                        <h2>{{ post._about_band_title }}</h2>
+                        <div class="py-5 pr-5">{{ post.get_field('_about_band_content') }}</div>
+                        <a class="cta-btn text-white text-uppercase">{{ pll__('About us') }}</a>
+                    </div>
+                </div>
+
+
+            </div><!-- #primary -->
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+    <div  id="locations-content" class="container">
+        <a name="_countries"></a>
+
+        <div class="row window-height align-items-center">
+
+            <div class=" col-md-8 flex-md-first flex-last content-area">
+                <div id="country-cta-3" class="mb-4">
+                    <h3 class="text-uppercase">{{ countries[2].title }}</h3>
+                    <p>{{  countries[2].get_field('header_excerpt')|length > 250 ? countries[2].get_field('header_excerpt')|slice(0, 250) ~ '...' : countries[2].get_field('header_excerpt')}}</p>
+                    <a href="{{ countries[2].link }}" class="cta-btn text-orange text-uppercase">{{ pll__('More') }}</a>
+                </div>
+                <div class="location-map pb-5">
+                    {{ source('media/africa-maps-home.svg') }}
+                </div>
+
+
+            </div><!-- #primary -->
+            <div id="primary" class=" col-md-4 content-area">
+                <h2 class="my-4 text-center text-orange text-uppercase hidden-sm-up">{{ pll__('Countries') }}</h2>
+                {% for country in countries %}
+                    {% if loop.index < 3  %}
+                <div id="{{ country.slug }}-cta" class="text-md-right text-center py-3">
+                    <h3 class="text-uppercase">{{ country.title }}</h3>
+                    <p>{{  country.get_field('header_excerpt')|length > 250 ? country.get_field('header_excerpt')|slice(0, 250) ~ '...' : country.get_field('header_excerpt')}}</p>
+                    <a href="{{ country.link }}" class="cta-btn text-orange text-uppercase">{{ pll__('More') }}</a>
+                </div>
+                {% endif %}
+                {%  endfor %}
+
+            </div><!-- #primary -->
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+    <a name="_impact"></a>
+    {% embed "template-impact-block.twig" %}
+
+    {% endembed %}
+    <div  id="news-content" class="container my-5">
+        <a name="_news"></a>
+
+        <div class="row py-3">
+            <div class="col-12 mb-4">
+                <h2>{{ post._news_band_title }}</h2>
+            </div>
+            {% for article in news %}
+
+                <div class="col-md-4 ">
+                    {%  set newsData = {
+                    link : article.link,
+                    cats : article.terms('category'),
+                    image : article.thumbnail.src,
+                    title : article.title,
+                    date : article.post_date|date('d M Y'),
+                    tags : article.terms('tags')
+
+
+
+
+                    } %}
+
+                    {{ mixin.newsBlock(newsData) }}
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+    <div  id="donate-content" class="bg-green container-fluid">
+        <a name="_donate"></a>
+
+        <div class="row ">
+
+
+            <div class=" col-12 text-center py-5 ">
+                <div class="container">
+
+                    <h2>{{ post._donate_band_title }}</h2>
+                    <div class="py-4">
+                        {{ post.get_field('_donate_band_content') }}
+                    </div>
+                    <a href="/donate" class="my-4 cta-btn text-white text-uppercase">{{ pll__('Donate now') }}</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div><!-- #wrapper -->
+
+
+
+{% endblock %}

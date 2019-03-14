@@ -1,0 +1,121 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper about-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class="window-height-semi" style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="window-height-semi container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ pll__('About us') }}</h1>
+
+                </div>
+                <div class="col-md-6  pb-5" >
+                    <div class="text-white ">{{ post.get_field('header_content_left') }}</div>
+                </div>
+                <div class="col-md-6  pb-5" >
+                    <div class="text-white ">{{ post.get_field('header_content_right') }}</div>
+                </div>
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="mission-content" class="container">
+
+        <div class="row   ">
+
+            <div id="primary" class="col-12 py-5 content-area">
+                <h1 class="text-uppercase mb-4">{{ pll__('Our Missions and values') }}</h1>
+                <!-- Nav tabs -->
+                <ul class="nav bg-m-grey py-3" role="tablist">
+                    {% for item in post.get_field('missions_and_values') %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content bg-l-grey p-4">
+                    {% for item in post.get_field('missions_and_values') %}
+                    <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="mission{{ loop.index }}" role="tabpanel">{{ item.content }}</div>
+                    {% endfor %}
+                </div>
+
+            </div><!-- #primary -->
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+    {% embed "template-impact-block.twig" %}
+
+    {% endembed %}
+    <div  id="team-content" class="container py-5">
+
+        <div class="row no-gutters justify-content-center">
+            <div class="col-12 text-center mb-4">
+                <h2>{{ pll__('Our Team') }}</h2>
+            </div>
+
+            {%  set cat = '' %}
+            {%  set count = 1 %}
+            {% for member in team %}
+                {% if member.country.slug != cat %}
+                <div class="square-me col-md-3 my-3 text-center text-white {% if count == 1 or count > 3 %}bg-orange{% endif %} {% if count == 2 %}bg-green{% endif %} {% if count == 3 %}bg-brown{% endif %}">
+                    <div class="inner">
+                        <h4 class="font-eveleth center-me">{{  member.country.name }}</h4>
+                    </div>
+                </div>
+                {%  set count = count + 1 %}
+                {% endif %}
+                {%  set cat = member.country.slug %}
+
+                <div data-content="{{ member.content }}" data-name="{{ member.post_title }}" data-image="{{ fn('wp_get_attachment_image_url',member._thumbnail_id,'full') }}" data-tag="{{ member.post_title }}" data-cat="{{ cat|capitalize }}" class="square-me team-square col-md-3 my-3 text-center " style="{{ mixin.bgImg(fn('wp_get_attachment_image_url',member._thumbnail_id,'medium')) }}">
+                    <div class="inner">
+                        <h4 class="font-eveleth team-name center-me">{{  member.post_title }}</h4>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div  id="partners-content" class="container py-5">
+
+        <div class="row justify-content-center">
+            <div class="col-12 text-center mb-4">
+                <h2>{{ pll__('Our Partners') }}</h2>
+            </div>
+
+
+            {% for item in post.get_field('mc_partners') %}
+                <div class="col-md-3 text-center">
+                    <a href="{{ item.link }}" target="_blank"><img src="{{item.logo|resize(0,150) }}"></a>
+                    <p class="text-m-grey"><small>{{ item.description }}</small></p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+</div><!-- #wrapper -->
+    {% embed "template-team-modal.twig" %}
+
+    {% endembed %}
+
+
+
+
+{% endblock %}

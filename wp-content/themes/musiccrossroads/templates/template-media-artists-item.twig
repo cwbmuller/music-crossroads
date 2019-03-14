@@ -1,0 +1,30 @@
+{% import "mixins.twig" as mixin %}
+
+{% block content %}
+    {% if posts  %}
+        {% for artist in posts %}
+            <div class="col-md-4 mb-4">
+                <div class="artist-block square-me" style="{{  mixin.bgImg(artist.thumbnail.src,0.3) }}">
+                    <div class="inner">
+                        <a href="{{ artist.link}}">
+                            <div class="p-4" style="position: absolute; ">
+                                {% for term in artist.terms('category') %}
+                                    <p class="d-inline-block m-1 font-eveleth text-orange">{{term.name}}</p>
+                                {% endfor %}
+                                <h3 class="mb-3 font-eveleth text-white">{{artist.title}}</h3>
+                                <h5 class="mb-2 font-eveleth text-orange">{{ artist.terms('music_genres')[0].name}}</h5>
+                                <div class=" text-white">{{ artist.content|length > 120 ? artist.content|slice(0, 120) ~ '...' : artist.content }}</div>
+                                <span class="cta-btn text-orange text-white text-uppercase ">{{ pll__('View artist') }}</span>
+                            </div>
+                        </a>
+
+
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3>{{ pll__('There are no artists matching your filter, please try again') }}</h3>
+    {% endif %}
+{% endblock %}

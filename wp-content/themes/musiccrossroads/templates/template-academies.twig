@@ -1,0 +1,75 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper academies-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class=" container" >
+
+            <div class="row">
+
+                <div class="col-md-6 py-4 flex-md-first flex-last text-left countries {{ post.title|lower }}-active" >
+                    {{ source('media/countries-zoomed.svg') }}
+
+                </div>
+                <div class="col-md-6  py-5 text-center" >
+                    <div id="academies-header">
+                        <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+                        <div class="text-white header-text">{{ post.content}}</div>
+
+
+                    </div>
+                    {% for academy in academies %}
+                        <div id="{{ academy.slug }}-copy" class="my-4 country-block" >
+                            <h2 class="text-green text-uppercase">{{ academy.title }}</h2>
+                            <div class="text-white ">{{ academy.get_field('header_excerpt') }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+
+    <section  id="activites-content" class="container my-5">
+
+        <div class="row  py-3">
+            <div class="col-12 mb-4">
+                <h2>{{ post._global_activities_title }}</h2>
+            </div>
+            {% for activity in post.get_field('_global_activities') %}
+
+                <div class="col-md-4 mb-4">
+                    {%  set newsData = {
+                    link : activity.link,
+                    image : activity.image,
+                    title : activity.title,
+                    excerpt : activity.excerpt,
+
+                    } %}
+
+                    {{ mixin.newsBlock(newsData) }}
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </section>
+
+
+
+
+</div><!-- #wrapper -->
+
+
+
+
+{% endblock %}

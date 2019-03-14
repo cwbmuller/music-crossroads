@@ -1,0 +1,73 @@
+.home-nav {
+  &.admin-bar {
+    #wrapper-navbar {
+      top: auto;
+    }
+  }
+  #wrapper-navbar {
+    position: absolute;
+    bottom:0;
+    top: auto;
+    @include breakpoint(phone) {
+      top:0px;
+      bottom:auto;
+    }
+  }
+}
+
+.home-wrapper {
+  header {
+    .header-nav-down {
+      position: absolute;
+      right: 2rem;
+      bottom: 6rem;
+      -webkit-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+      -o-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+      a {
+        color: white;
+        display: block;
+        text-transform: uppercase;
+        margin: 1rem 0;
+
+      }
+
+    }
+    @include breakpoint(phone) {
+      h1 {
+        font-size: 1.5rem;
+        margin-top: $navbar-height;
+      }
+    }
+
+  }
+  #about-content {
+    margin-top: $navbar-height;
+    @include breakpoint(phone) {
+      margin-top: 0;
+      background: $mc-green!important;
+    }
+  }
+  .location-map {
+    margin-top: -2rem;
+    svg {
+      width: 100%;
+      height: auto;
+    }
+    @include breakpoint(phone) {
+      margin-top: auto;
+    }
+  }
+  #country-cta-3 {
+    position: absolute;
+    width: 40%;
+    bottom: 0;
+    @include breakpoint(phone) {
+      text-align: center;
+      width: auto;
+      position: inherit;
+    }
+  }
+}

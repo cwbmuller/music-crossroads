@@ -1,0 +1,11 @@
+{% import "mixins.twig" as mixin %}
+
+{% block content %}
+    <div class="col-12">
+        {% if post._soundcloud_embed  %}
+            {{ post._soundcloud_embed }}
+        {% else %}
+            <h3>{{ pll__('There is no music available for this artist') }}</h3>
+        {% endif %}
+    </div>
+{% endblock %}

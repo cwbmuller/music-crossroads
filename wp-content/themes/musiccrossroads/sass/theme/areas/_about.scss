@@ -1,0 +1,53 @@
+.about-wrapper {
+  #mission-content {
+    li.nav-item {
+      a.nav-link {
+        border-right: 1px solid white;
+        @include breakpoint(phone) {
+          font-size: 10px;
+        }
+        &.active,&:hover {
+
+          position: relative;
+          &:after {
+            width: 0;
+            position: absolute;
+            bottom: -36px;
+            left: 50%;
+            transform: translate(-50%);
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            content: '';
+            border-top: 20px solid $mc-m-grey;
+          }
+        }
+
+      }
+      &:last-of-type {
+        a.nav-link {
+          border-right: none
+        }
+      }
+    }
+  }
+
+}
+
+.team-square {
+  .team-name {
+    opacity: 0;
+    margin-bottom: -1rem;
+  }
+  &:hover {
+    cursor: pointer;
+    .inner {
+      background: rgba(255,255,255,0.5);
+    }
+    .team-name {
+      opacity: 1;
+      margin-bottom: 0.5rem;
+      transition: opacity 0.5s linear, margin 0.5s;
+    }
+  }
+}

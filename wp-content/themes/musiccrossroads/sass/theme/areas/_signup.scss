@@ -1,0 +1,7 @@
+#mc-subscribe {
+  input {
+    @include breakpoint(phone) {
+      margin: 0.5rem 0;
+    }
+  }
+}

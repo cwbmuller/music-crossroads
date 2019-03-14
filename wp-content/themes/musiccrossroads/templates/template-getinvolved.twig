@@ -1,0 +1,157 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper getinvoled-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-12 pb-5" >
+                    <div class="text-white ">{{ post.content }}</div>
+                </div>
+
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="getinvoled-content" class="container-fluid">
+
+        <div class="row ">
+
+            <div class="col-12 content-area bg-m-grey">
+                <div class="container">
+                    <!-- Nav tabs -->
+
+                    <ul class="nav my-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active m-0 py-0 px-3 font-eveleth text-white" data-toggle="tab" href="#work" role="tab">{{ pll__('Work with us') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0 m-0 px-3 font-eveleth text-white" data-toggle="tab" href="#sponsor" role="tab">{{ pll__('Become a sponsor') }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div><!-- #primary -->
+            <div class="container px-0">
+                <div class="row no-gutters">
+                    <div class="col-12 content-area">
+
+                            <!-- Tab panes -->
+                            <div id="outer-tab" class="tab-content  py-5 px-md-4">
+
+                                <div class="tab-pane active" id="work" role="tabpanel">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-8 p-3 content-area">
+                                            <h2 class="pb-4 text-orange text-uppercase">{{ pll__('Current openings') }}</h2>
+                                            <div class="mb-4 row no-gutters">
+                                                {% for job in jobs %}
+
+                                                    <div class="col-12 mb-4 pb-3 grey-border-block">
+                                                        <a name="_{{ job.slug }}"></a>
+                                                        <h3 class="text-brown font-eveleth  text-uppercase">{{ job.title }}</h3>
+                                                        <h5 class="text-green font-eveleth text-uppercase mb-4">{{  job.terms('team_country')[0].name}}</h5>
+
+                                                        {{ job.content }}
+                                                        <a href="mailto:info@music-crossroads.net" class="my-4 text-orange cta-btn text-white text-uppercase ">{{ pll__('Apply now') }}</a>
+
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 text-center ">
+                                            <div class="mb-5 bg-m-grey">
+                                                <div class="bg-orange p-4">
+                                                    <h3 class="mb-0 text-white font-eveleth text-uppercase">{{ pll__('How to apply') }}</h3>
+                                                </div>
+                                                <div class="p-4">
+                                                    <p>{{ post._how_to_apply }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="mb-5">
+                                                <div class="bg-orange p-4">
+                                                    <h3 class="text-white">{{ pll__('Keep up to date with Music Crossroads') }}:</h3>
+                                                </div>
+                                                <div class="bg-m-grey p-4">
+                                                    <a href="#" data-toggle="modal" data-target="#subscribe-modal" class=" cta-btn text-white text-uppercase ">{{ pll__('Click to subscribe') }}</a>
+
+                                                </div>
+                                            </div>
+
+                                            <div >
+                                                <h3 class="text-white mb-4"><span class="text-mc-bg bg-brown text-uppercase"><span class="inner">{{ pll__('Recent') }}</span></span></br><span class="text-mc-r"><span class="inner">{{ pll__('Jobs') }}</span></span></h3>
+                                                {% for job in jobs %}
+                                                    <div class="col-12 mb-4 pb-3 grey-border-block">
+                                                        <a class="text-brown" href="#_{{ job.slug }}"><h3 class=" font-eveleth  text-uppercase">{{ job.title }}</h3></a>
+                                                        <h5 class="text-green font-eveleth text-uppercase mb-4">{{  job.terms('team_country')[0].name}}</h5>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="sponsor" role="tabpanel">
+                                    <h2 class="pb-4 text-uppercase text-center  font-eveleth-thin">{{ post._sponsor_title }}</h2>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-6 p-3">
+                                            {{ post._sponsor_content_left }}
+                                        </div>
+                                        <div class="col-md-6 p-3">
+                                            {{ post._sponsor_content_right }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+            <div  id="partners-content" class="container py-5">
+
+                <div class="row justify-content-center ">
+                    <div class="col-12 text-center mb-4">
+                        <h2>{{ pll__('Our sponsor partners') }}</h2>
+                    </div>
+
+
+                    {% for item in home.get_field('mc_partners') %}
+                        <div class="col-md-3 text-center">
+                            <a href="{{ item.link }}" target="_blank"><img src="{{item.logo|resize(0,150) }}"></a>
+                            <p class="text-m-grey"><small>{{ item.description }}</small></p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+
+
+
+
+{% endblock %}

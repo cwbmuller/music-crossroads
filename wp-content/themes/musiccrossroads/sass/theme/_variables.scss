@@ -1,0 +1,49 @@
+// Use this file to overwrite the basic Bootstrap variables and add your own variables
+// To overwrite a Bootstrap variable you don´t have to touch the Bootstrap folder. 
+// Just copy a variable from /sass/bootstrap/_variables.scss, paste it here and edit the value.
+// As example you find one of the most important Bootstrap variable below: $brand-primary.
+// Thats the ugly Bootstrap blue used for all the links, primary buttons etc.
+// Just add your color code here, compile the theme.scss file to change this color everywhere
+
+
+
+
+// Basics of a navbar
+$navbar-height:                    85px;
+$navbar-margin-bottom:             0px;
+$navbar-border-radius:             0px;
+$adminbar-height: 32px;
+
+
+$button-width: 50px;                    // The width of the button area
+$button-height: 50px;                   // The height of the button area
+$bar-thickness: 6px;                    // The thickness of the button bars
+$button-pad: 8px;                      // The left/right padding between button area and bars.
+$button-bar-space: 10px;                // The spacing between button bars
+$button-transistion-duration: 0.1s;     // The transition duration
+
+
+// Colour palette
+$cta-colour : #fff;
+$white : #ffffff;
+$black : #000000;
+$dirty-white: #f9f9f9;
+$mc-orange: #EFAA3F;
+$mc-brown: #564241;
+$mc-green: #BAC34B;
+$mc-d-brown: #281F1E;
+$mc-off-white: #F7F0E8;
+$mc-l-white: #FDFBF8;
+$mc-l-grey: #E4E4E4;
+$mc-m-grey: #B3C1C8;
+$mc-d-grey: #242424;
+
+
+// Typography
+$base__font-size: 16px;
+$base__font-family : Arial;
+
+$loading-results : "/wp-content/themes/musiccrossroads/media/loading-bars.svg";
+
+
+

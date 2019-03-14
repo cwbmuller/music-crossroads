@@ -1,0 +1,152 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper donate-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-12  pb-5" >
+                    <div class="text-white ">{{ post.content }}</div>
+                    <a href="#_donate" class="cta-btn text-white text-uppercase">{{ pll__('Donate now') }}</a>
+                </div>
+
+
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="donate-content" class="container my-5">
+        <div class="row ">
+
+            <div class="col-12 content-area grey-border-block mt-md-0 mt-4 pb-4 mb-5 ">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner" role="listbox">
+                        {% for item in post.get_field('_showcase') %}
+                            <div class="carousel-item  {% if loop.index == 1 %}active{% endif %}">
+                                <div class="row">
+                                    <div class="col-md-10 offset-md-1 mb-4" >
+                                        <div class="p-4" style="{{ mixin.bgImg(item.image, 0.3) }}; min-height: 400px">
+                                            <h2 class="text-white font-eveleth text-uppercase">{{ item.title }}</h2>
+                                            <h3 class="text-orange font-eveleth text-uppercase">{{ item.sub_title }}</h3>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-5 offset-md-1 ">
+                                        {{ item.left_content }}
+                                    </div>
+                                    <div class="col-md-5">
+                                        {{ item.right_content }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+            <div class="col-12 content-area ">
+                <a name="_donate"></a>
+                <div class="text-center grey-border-block pb-4">
+                    <h3 class="font-eveleth-thin text-uppercase">{{ pll__('I would like to') }}</h3>
+                    <ul class="nav my-3 d-inline-flex" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active m-0 mr-4 py-2 px-3 rounded font-eveleth text-white" data-toggle="tab" href="#sponsor-tab" role="tab">{{ pll__('Sponsor a student') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  m-0 py-2 px-3 rounded  font-eveleth text-white" data-toggle="tab" href="#donate-tab" role="tab">{{ pll__('Donate') }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="outer-tab" class="tab-content grey-border-block mb-5 py-4">
+
+                    <div class="tab-pane active text-center" id="sponsor-tab" role="tabpanel">
+                        <div class=" text-uppercase">
+                            <h5 class="d-inline-block mx-3 my-2 ">{{ pll__('I would like to sponsor') }}</h5>
+                            <div class="input-group limit-width my-2">
+                                <select id="student-select" class="form-control sponsor-select custom-select" data-amount="{{ post._student_amount }}">
+                                    <option value="1" selected>1</option>
+                                    {% for i in 2..10 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="select-1"></label>
+                            </div>
+                            <h5 class="d-inline-block mx-3 my-2">{{ pll__('student(s) for') }}</h5>
+                            <div class="input-group limit-width my-2">
+                                <select id="month-select" class="form-control sponsor-select custom-select">
+                                    <option value="1" selected>1</option>
+                                    {% for i in 2..12 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="select-1"></label>
+                            </div>
+                            <h5 class="d-inline-block mx-3 my-2">{{ pll__('month(s)') }}</h5>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane text-center" id="donate-tab" role="tabpanel">
+                        <div class=" ">
+                            {% for item in post.get_field('_donate_amounts') %}
+                                <a href="#" class="my-2 cta-btn text-green donate-cta text-uppercase font-eveleth-thin" data-amount="{{ item.amount }}"><h4 class="mb-0">€{{ item.amount }}</h4></a>
+                            {% endfor %}
+                            <a href="#" class=" my-2 cta-btn text-green donate-cta text-uppercase font-eveleth-thin" data-amount="other"><h4 class="mb-0"> {{ pll__('Other') }}</h4></a>
+                            <div class="w-100 text-center my-4 other-amount">
+                                <p class="font-eveleth-thin text-uppercase">{{ pll__('Enter own amount') }}:</p>
+                                <span class="mr-2">€</span><input id="other-amount" class="bg-l-grey" value="" type="number">
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h2 class="font-eveleth-thin text-uppercase text-green">{{ pll__('Total') }}: €<span class="total-amount" data-amount="{{ post._student_amount * 100 }}">{{ post._student_amount }}</span> </h2>
+                    <p class="text-m-grey">{{ post._donate_gift_description }}</p>
+                    {% for item in post.get_field('_gifts') %}
+                    <a href="#" class="my-2 p-3 mx-3 donate-submit d-inline-block font-eveleth-thin text-uppercase text-white " data-amount="{{ item.amount }}" data-title="{{ item.title }}"><img src="{{ item.icon }}"><p class="mb-0 mt-2">{{ item.title }}</p></a>
+                    {% endfor %}
+                </div>
+
+            </div><!-- #primary -->
+
+
+
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+
+
+
+{% endblock %}

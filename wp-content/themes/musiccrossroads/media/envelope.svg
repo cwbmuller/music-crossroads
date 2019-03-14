@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="37px" viewBox="0 0 54 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Envelope</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3A-Countries_About-" transform="translate(-641.000000, -1971.000000)" fill="#FFFFFF">
+            <g id="Contact-Section" transform="translate(188.000000, 1654.000000)">
+                <g id="Contact-Icons" transform="translate(453.000000, 101.000000)">
+                    <g id="Mail" transform="translate(0.000000, 216.000000)">
+                        <g id="Envelope">
+                            <path d="M54,4.12284301 L54,37 L0,37 L0,4 C9.19209413,13.0052115 18.0893591,21.7199676 27.1393333,30.586503 C27.4837651,30.1835779 27.7791516,29.7806528 28.1330581,29.4317787 C36.7516565,20.992737 45.3763856,12.558063 54,4.12284301" id="Fill-11"></path>
+                            <path d="M54,0 L54,1.95718088 C53.6483346,2.22829148 53.2660169,2.47131891 52.948905,2.77807353 C44.620398,10.8374031 36.2996934,18.9026733 27.9750877,26.9668634 C27.6551892,27.2763183 27.3185713,27.5701115 26.8493125,28 C26.4987617,27.5960344 26.2273496,27.2309532 25.9035499,26.9177179 C17.5856319,18.8475871 9.27495901,10.7709756 0.920258263,2.73810902 C0.0681244866,1.91883655 -0.17374998,1.12062647 0.118282786,0 L54,0 Z" id="Fill-13"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

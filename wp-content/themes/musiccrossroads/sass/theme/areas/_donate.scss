@@ -1,0 +1,53 @@
+.donate-wrapper {
+  .limit-width {
+    width: 70px;
+    display: inline-flex;
+  }
+  a[role="tab"] {
+    background: $mc-orange;
+    &:hover, &.active {
+      background: $mc-green;
+    }
+  }
+  input[type="number"] {
+    border: none;
+    text-indent: 1rem;
+    color: $mc-d-grey;
+    line-height: 2rem;
+    font-family: Eveleth-Thin, Arial;
+  }
+  .other-amount {
+    display: none;
+  }
+  .donate-submit {
+    border-radius: 5px;
+    background: $mc-orange;
+    &:hover {
+      background: $mc-green;
+    }
+    img{
+      width: 50px;
+      height: 50px;
+
+    }
+  }
+  .carousel-control-next, .carousel-control-prev {
+    @include breakpoint(phone) {
+      top: -3rem;
+      bottom: auto;
+
+    }
+    width: 7%;
+  }
+  .carousel-control-next-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-right-dark.svg');
+    width: 40px;
+    height: 40px;
+
+  }
+  .carousel-control-prev-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-left-dark.svg');
+    width: 40px;
+    height: 40px;
+  }
+}

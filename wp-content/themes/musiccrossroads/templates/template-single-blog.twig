@@ -1,0 +1,82 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=181883778533844";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<div class="wrapper single-blog-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgBrown(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="container pt-5" >
+
+            <div class="row ">
+
+                <div class="col-md-10  py-5" >
+                    <p class="font-eveleth-thin text-white">{{ pll__('News') }} <span class="font-eveleth">{% for term in post.terms('category') %}| {{term.name}} {% endfor %}</span></p>
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-md-2 text-right  p-4" >
+
+                        {% if post.prev %}
+                            <a class=" button d-block  bg-nwp-grey text-white  {{post.prev.link|length ? '' : 'invisible'}}"  href="{{post.prev.link}}">{{ source('media/nav-arrow-left.svg') }}</a >
+
+                        {% endif %}
+                        {% if post.next %}
+                            <a class="button d-block bg-nwp-grey text-white  {{post.next.link|length ? '' : 'invisible'}}" href="{{post.next.link}}">{{ source('media/nav-arrow-right.svg') }}</a >
+                        {% endif %}
+
+
+                </div>
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="single-blog-content" class="container-fluid">
+        <div class="container">
+        <div class="row pb-5 justify-content-center">
+            <div class="col-12 py-4">
+                <p class="font-eveleth-thin text-center text-orange">{{ article.post_date|date('d M Y') }}  {% for term in post.terms('team_country') %}| {{term.name}} {% endfor %}</p>
+                <hr>
+            </div>
+            <div class="col-md-8 content-area ">
+                <div class="pb-4 mb-4 grey-border-block">
+
+                    {{ post.content }}
+                </div>
+                {{ function('comments_template') }}
+            </div><!-- #primary -->
+            {#<div class="col-md-4 ">#}
+                {#{% embed "template-news-sidebar.twig" %}#}
+
+                {#{% endembed %}#}
+
+            {#</div><!-- #primary -->#}
+
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+    {% embed "template-team-modal.twig" %}
+
+    {% endembed %}
+
+
+
+
+{% endblock %}

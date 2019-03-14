@@ -1,0 +1,24 @@
+{% import "mixins.twig" as mixin %}
+
+{% block content %}
+    {% if post.get_field('_artist_gallery')  %}
+        {% for image in post.get_field('_artist_gallery') %}
+            <div class="col-md-4 mb-4">
+                <div class="artist-block square-me" style="{{  mixin.bgImg( fn('wp_get_attachment_image_url',image.id, medium),0.3) }}">
+                    <a href="{{ fn('wp_get_attachment_image_url',image.id,large)}}" data-rel="lightbox">
+
+                        <div class="inner">
+
+
+
+
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3>T{{ pll__('There are no images available for this artist') }}</h3>
+    {% endif %}
+{% endblock %}

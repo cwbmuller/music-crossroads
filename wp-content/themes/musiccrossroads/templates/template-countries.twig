@@ -1,0 +1,48 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper countries-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class=""style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class=" container" >
+
+            <div class="row">
+
+                <div class="col-md-6 py-4 flex-md-first flex-last text-left countries {{ post.title|lower }}-active" >
+                    {{ source('media/countries-zoomed.svg') }}
+
+                </div>
+                <div class="col-md-6  py-5 text-center" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+                    <div class="text-white header-text">{{ post.content}}</div>
+                    <div class="text-center" >
+
+                    </div>
+                    {% for country in countries %}
+                        <div id="{{ country.slug }}-copy" class="my-4 country-block" >
+                            <h2 class="text-green text-uppercase">{{ country.title }}</h2>
+                            <div class="text-white ">{{ country.get_field('header_excerpt') }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+
+
+
+</div><!-- #wrapper -->
+
+
+
+
+{% endblock %}

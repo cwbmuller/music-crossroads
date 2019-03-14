@@ -1,0 +1,19 @@
+.academies-wrapper {
+  header {
+    .countries svg {
+      text-align: left;
+      height: 400px;
+      width: auto;
+      display: block;
+    }
+    .country-block {
+      display: none;
+    }
+  }
+  #malawi, #mozambique, #zimbabwe {
+    &:hover {
+      fill:#ffffff;
+      cursor: pointer;
+    }
+  }
+}

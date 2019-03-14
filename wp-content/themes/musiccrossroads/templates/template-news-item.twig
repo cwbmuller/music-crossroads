@@ -1,0 +1,28 @@
+{% import "mixins.twig" as mixin %}
+
+{% block content %}
+    {% if posts  %}
+        {% for article in posts %}
+
+            <div class="col-md-6 mb-4">
+                {%  set newsData = {
+                link : article.link,
+                cats : article.terms('category'),
+                image : article.thumbnail.src,
+                title : article.title,
+                date : article.post_date|date('d M Y'),
+                tags : article.terms('tags')
+
+
+
+
+                } %}
+
+                {{ mixin.newsBlock(newsData) }}
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <h3>{{ pll__('There are no posts matching your filter, please try again') }}</h3>
+    {% endif %}
+{% endblock %}

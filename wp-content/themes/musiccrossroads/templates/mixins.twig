@@ -1,0 +1,115 @@
+{#
+	A useful set of functions you can import into twig templates
+	Example:
+
+	{% import "mixins.twig" as mixin %}
+
+	{{ mixin.image( url, alt, link ) }}
+	===========================================================
+#}
+
+{# Add post block for Events, Blog, Forums #}
+{% macro mixinName(data) %}
+    {% import _self as mixins %}
+    {#
+        Add your macro code here using the optional data parameter
+    #}
+{% endmacro %}
+
+{# Add cover background image with given opacity #}
+{% macro bgImg(src,opacity=0) %}
+    {% import _self as mixins %}
+    background-position : 50% 50%;
+    background-size:cover;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, {{ opacity }})), to(rgba(0, 0, 0, {{ opacity }}))), url('{{src}}');
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+{% endmacro %}
+
+{# Add cover background image with given opacity #}
+{% macro bgImgOrange(src,opacity=0) %}
+    {% import _self as mixins %}
+    background-position : 50% 50%;
+    background-size:cover;
+    background-image: linear-gradient(to bottom, rgba(239, 170, 63, {{ opacity }}), rgba(239, 170, 63, {{ opacity }})), url('{{src}}');
+    background-image: -moz-linear-gradient(top, rgba(239, 170, 63, {{ opacity }}), rgba(239, 170, 63, {{ opacity }})), url('{{src}}');
+    background-image: -o-linear-gradient(top, rgba(239, 170, 63, {{ opacity }}), rgba(239, 170, 63, {{ opacity }})), url('{{src}}');
+    background-image: -ms-linear-gradient(top, rgba(239, 170, 63, {{ opacity }}), rgba(239, 170, 63, {{ opacity }})), url('{{src}}');
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(239, 170, 63, {{ opacity }})), to(rgba(239, 170, 63, {{ opacity }}))), url('{{src}}');
+    background-image: -webkit-linear-gradient(top, rgba(239, 170, 63, {{ opacity }}), rgba(239, 170, 63, {{ opacity }})), url('{{src}}');
+{% endmacro %}
+
+{# Add cover background image with given opacity #}
+{% macro bgImgGreen(src,opacity=0) %}
+    {% import _self as mixins %}
+    background-position : 50% 50%;
+    background-size:cover;
+    background-image: linear-gradient(to bottom, rgba(182, 191, 75, {{ opacity }}), rgba(182, 191, 75, {{ opacity }})), url('{{src}}');
+    background-image: -moz-linear-gradient(top, rgba(182, 191, 75, {{ opacity }}), rgba(182, 191, 75, {{ opacity }})), url('{{src}}');
+    background-image: -o-linear-gradient(top, rgba(182, 191, 75, {{ opacity }}), rgba(182, 191, 75, {{ opacity }})), url('{{src}}');
+    background-image: -ms-linear-gradient(top, rgba(182, 191, 75, {{ opacity }}), rgba(182, 191, 75, {{ opacity }})), url('{{src}}');
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(182, 191, 75, {{ opacity }})), to(rgba(182, 191, 75, {{ opacity }}))), url('{{src}}');
+    background-image: -webkit-linear-gradient(top, rgba(182, 191, 75, {{ opacity }}), rgba(182, 191, 75, {{ opacity }})), url('{{src}}');
+{% endmacro %}
+
+{# Add cover background image with given opacity #}
+{% macro bgImgBrown(src,opacity=0) %}
+    {% import _self as mixins %}
+    background-position : 50% 50%;
+    background-size:cover;
+    background-image: linear-gradient(to bottom, rgba(87, 67, 65, {{ opacity }}), rgba(87, 67, 65, {{ opacity }})), url('{{src}}');
+    background-image: -moz-linear-gradient(top, rgba(87, 67, 65, {{ opacity }}), rgba(87, 67, 65, {{ opacity }})), url('{{src}}');
+    background-image: -o-linear-gradient(top, rgba(87, 67, 65, {{ opacity }}), rgba(87, 67, 65, {{ opacity }})), url('{{src}}');
+    background-image: -ms-linear-gradient(top, rgba(87, 67, 65, {{ opacity }}), rgba(87, 67, 65, {{ opacity }})), url('{{src}}');
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(87, 67, 65, {{ opacity }})), to(rgba(87, 67, 65, {{ opacity }}))), url('{{src}}');
+    background-image: -webkit-linear-gradient(top, rgba(87, 67, 65, {{ opacity }}), rgba(87, 67, 65, {{ opacity }})), url('{{src}}');
+{% endmacro %}
+
+{# Add background image to right with given opacity #}
+{% macro bgImgR(src,opacity=0) %}
+    {% import _self as mixins %}
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, {{ opacity }})), to(rgba(0, 0, 0, {{ opacity }}))), url('{{src}}');
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, {{ opacity }}), rgba(0, 0, 0, {{ opacity }})), url('{{src}}');
+{% endmacro %}
+
+{# Add background image to right with given opacity #}
+{% macro newsBlock(data) %}
+    {% import _self as mixins %}
+    <div class="news-block square-me" style="{{  mixins.bgImg(data.image,0.4) }}">
+        <div class="inner">
+            {% if data.link %}
+            <a href="{{ data.link}}">
+            {% endif %}
+                <div class="p-4" style="position: absolute; ">
+                    {% for term in data.cats %}
+                        <small><p class="d-inline-block my-1 font-eveleth text-orange">{% if loop.index > 1 %} | {% endif %}{{term.name}}</p></small>
+                    {% endfor %}
+                    <h5 class="mb-3 font-eveleth text-white">{{data.title}}</h5>
+                    <p class="font-eveleth-thin text-white mb-2">{{ data.date }}</p>
+                    {% if data.excerpt %}
+                    <span class="text-white mb-2"><small>{{  data.excerpt|length > 200 ? data.excerpt|slice(0, 200) ~ '...' : data.excerpt }}</small></span>
+                    {% endif %}
+
+                    <p class="font-eveleth-thin text-white mb-2">{% for term in data.tags %}<small><small>{% if loop.index > 1 %} | {% endif %}{{term.name}}</small></small>{% endfor %}</p>
+                    {% if data.link %}
+                    <span class="cta-btn text-white text-uppercase ">{{ pll__('Read more') }}</span>
+                    {% endif %}
+                </div>
+            {% if data.link %}
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endmacro %}

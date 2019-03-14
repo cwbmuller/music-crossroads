@@ -1,0 +1,118 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=181883778533844";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+<div class="wrapper country-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class="" style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class=" container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{ post.title }}</h1>
+
+                </div>
+                <div class="col-md-6  pb-5" >
+                    <div class="text-white ">{{ post.content }}</div>
+                </div>
+
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="blog-content" class="container">
+
+        <div class="row ">
+
+
+            <div class="col-md-8 content-area my-5 ">
+                <div class="row ">
+                    <div class="col-12 mb-4">
+                        <h5 class="d-inline-block mb-md-0 mb-3">{{ pll__('Category') }}:</h5>
+                        <div class="input-group mb-md-0 mb-3 limit-width">
+                            <select id="category-select" class="form-control news-select custom-select">
+                                <option value="" selected>{{ pll__('All Categories') }}</option>
+                                {% for term in categories %}
+                                    <option value="{{ term.slug }}">{{ term.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="select-1"></label>
+                        </div>
+                        <h5 class="d-inline-block ml-md-4 mb-md-0 mb-3">{{ pll__('Country') }}:</h5>
+                        <div class="input-group limit-width mb-md-0 mb-3">
+                            <select id="country-select" class="form-control news-select custom-select">
+                                <option value="" selected>{{ pll__('All Countries') }}</option>
+                                {% for country in countries %}
+                                        <option value="{{ country.slug }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="select-1"></label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="loading-results loading-results-news"></div>
+                        <div id="news-container" class="row">
+                            {% for article in news %}
+
+                            <div class="col-md-6 mb-4">
+
+                                {%  set newsData = {
+                                    link : article.link,
+                                    cats : article.terms('category'),
+                                    image : article.thumbnail.src,
+                                    title : article.title,
+                                    date : article.post_date|date('d M Y'),
+                                    tags : article.terms('tags')
+
+
+
+
+                                } %}
+
+                                 {{ mixin.newsBlock(newsData) }}
+
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center my-5 ">
+                {% embed "template-news-sidebar.twig" %}
+
+                {% endembed %}
+            </div>
+
+
+
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+
+
+
+</div><!-- #wrapper -->
+
+
+
+
+
+{% endblock %}
