@@ -9747,3 +9747,19 @@ select.custom-select {
 @media (max-width: 767px) {
   #mc-subscribe input {
     margin: 0.5rem 0; } }
+
+.news-wrapper #news-container li.nav-item {
+  border-right: 1px solid white; }
+  .news-wrapper #news-container li.nav-item a.nav-link {
+    border-radius: 50%;
+    padding: 0 0.5rem !important;
+    margin: 0 0.5rem !important; }
+    @media (max-width: 767px) {
+      .news-wrapper #news-container li.nav-item a.nav-link {
+        font-size: 10px; } }
+    .news-wrapper #news-container li.nav-item a.nav-link.active, .news-wrapper #news-container li.nav-item a.nav-link:hover {
+      position: relative;
+      background: white;
+      color: #242424 !important; }
+  .news-wrapper #news-container li.nav-item:last-of-type, .news-wrapper #news-container li.nav-item:first-of-type {
+    border-right: none; }
