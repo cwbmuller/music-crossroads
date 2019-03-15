@@ -9161,12 +9161,13 @@ select.custom-select {
     font-size: 1.5rem;
     margin-top: 85px; } }
 
-.home-wrapper #about-content {
-  margin-top: 85px; }
-  @media (max-width: 767px) {
-    .home-wrapper #about-content {
-      margin-top: 0;
-      background: #BAC34B !important; } }
+@media (max-width: 767px) {
+  .home-wrapper #about-content {
+    margin-top: 0;
+    background: #BAC34B !important; } }
+
+.home-wrapper #locations-content h2 {
+  margin: 3rem 0 4rem; }
 
 .home-wrapper .location-map {
   margin-top: -2rem; }
@@ -9286,10 +9287,13 @@ select.custom-select {
   font-family: Eveleth-Thin, Arial;
   text-transform: uppercase;
   color: white;
-  font-size: 14px; }
+  font-size: 15px; }
 
-#main-menu li.active a, #main-menu li:hover a {
+#main-menu li.active a {
   font-family: Eveleth, Arial; }
+
+#main-menu li:hover a {
+  opacity: 0.7; }
 
 #mc-menu {
   background: rgba(239, 170, 63, 0.9); }
