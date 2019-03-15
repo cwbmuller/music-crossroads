@@ -39,7 +39,7 @@
         </div><!-- #header -->
     </header>
 
-    <section  id="activites-content" class="container my-5">
+    <section  id="academies-content" class="container my-5">
 
         <div class="row">
             <div id="primary" class="col-12 py-5 content-area">
@@ -55,7 +55,7 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content bg-l-grey p-4">
-                    {% for item in post.get_field('missions_and_values') %}
+                    {% for item in post.get_field('more_info_block') %}
                     <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="mission{{ loop.index }}" role="tabpanel">{{ item.content }}</div>
                     {% endfor %}
                 </div>

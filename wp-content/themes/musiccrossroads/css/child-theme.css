@@ -9327,7 +9327,7 @@ select.custom-select {
       border-left: 20px solid transparent;
       border-right: 20px solid transparent;
       content: '';
-      border-top: 20px solid #B3C1C8; }
+      border-top: 20px solid #BAC34B; }
 
 .about-wrapper #mission-content li.nav-item:last-of-type a.nav-link {
   border-right: none; }
@@ -9717,6 +9717,28 @@ select.custom-select {
 
 .academies-wrapper header .country-block {
   display: none; }
+
+.academies-wrapper #academies-content li.nav-item a.nav-link {
+  border-right: 1px solid white; }
+  @media (max-width: 767px) {
+    .academies-wrapper #academies-content li.nav-item a.nav-link {
+      font-size: 10px; } }
+  .academies-wrapper #academies-content li.nav-item a.nav-link.active, .academies-wrapper #academies-content li.nav-item a.nav-link:hover {
+    position: relative; }
+    .academies-wrapper #academies-content li.nav-item a.nav-link.active:after, .academies-wrapper #academies-content li.nav-item a.nav-link:hover:after {
+      width: 0;
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translate(-50%);
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      content: '';
+      border-top: 20px solid #BAC34B; }
+
+.academies-wrapper #academies-content li.nav-item:last-of-type a.nav-link {
+  border-right: none; }
 
 .academies-wrapper #malawi:hover, .academies-wrapper #mozambique:hover, .academies-wrapper #zimbabwe:hover {
   fill: #ffffff;
