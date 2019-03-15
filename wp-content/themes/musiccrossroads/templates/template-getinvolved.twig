@@ -8,7 +8,7 @@
 {% block content %}
 <div class="wrapper getinvoled-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
 
-    <header class=""style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+    <header class=""style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
         <div  id="header" class="container" >
 
             <div class="row">
@@ -32,7 +32,7 @@
 
         <div class="row ">
 
-            <div class="col-12 content-area bg-m-grey">
+            <div class="col-12 content-area bg-brown">
                 <div class="container">
                     <!-- Nav tabs -->
 
@@ -75,19 +75,19 @@
                                         </div>
 
                                         <div class="col-md-4 text-center ">
-                                            <div class="mb-5 bg-m-grey">
+                                            <div class="mb-5 bg-brown">
                                                 <div class="bg-orange p-4">
                                                     <h3 class="mb-0 text-white font-eveleth text-uppercase">{{ pll__('How to apply') }}</h3>
                                                 </div>
                                                 <div class="p-4">
-                                                    <p>{{ post._how_to_apply }}</p>
+                                                    <p>{{ post.get_field('_how_to_apply') }}</p>
                                                 </div>
                                             </div>
                                             <div class="mb-5">
                                                 <div class="bg-orange p-4">
                                                     <h3 class="text-white">{{ pll__('Keep up to date with Music Crossroads') }}:</h3>
                                                 </div>
-                                                <div class="bg-m-grey p-4">
+                                                <div class="bg-brown p-4">
                                                     <a href="#" data-toggle="modal" data-target="#subscribe-modal" class=" cta-btn text-white text-uppercase ">{{ pll__('Click to subscribe') }}</a>
 
                                                 </div>

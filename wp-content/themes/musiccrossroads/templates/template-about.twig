@@ -36,7 +36,7 @@
             <div id="primary" class="col-12 py-5 content-area">
                 <h1 class="text-uppercase mb-4">{{ pll__('Our Missions and values') }}</h1>
                 <!-- Nav tabs -->
-                <ul class="nav bg-m-grey py-3" role="tablist">
+                <ul class="nav bg-brown py-3" role="tablist">
                     {% for item in post.get_field('missions_and_values') %}
                     <li class="nav-item">
                         <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
