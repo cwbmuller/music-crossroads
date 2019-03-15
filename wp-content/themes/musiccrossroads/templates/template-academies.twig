@@ -41,7 +41,31 @@
 
     <section  id="activites-content" class="container my-5">
 
+        <div class="row">
+            <div id="primary" class="col-12 py-5 content-area">
+                <h1 class="text-uppercase mb-4">{{ post.get_field('more_info_block_title') }}</h1>
+                <!-- Nav tabs -->
+                <ul class="nav bg-green py-3" role="tablist">
+                    {% for item in post.get_field('more_info_block') %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content bg-l-grey p-4">
+                    {% for item in post.get_field('missions_and_values') %}
+                    <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="mission{{ loop.index }}" role="tabpanel">{{ item.content }}</div>
+                    {% endfor %}
+                </div>
+
+            </div><!-- #primary -->
+        </div>
+
         <div class="row  py-3">
+
+
             <div class="col-12 mb-4">
                 <h2>{{ post._global_activities_title }}</h2>
             </div>
