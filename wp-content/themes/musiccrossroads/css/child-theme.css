@@ -9668,32 +9668,54 @@ select.custom-select {
 .getinvoled-wrapper li.nav-item:last-of-type a.nav-link {
   border-right: none; }
 
+.donate-wrapper #donate-info li.nav-item a.nav-link {
+  border-right: 1px solid white; }
+  @media (max-width: 767px) {
+    .donate-wrapper #donate-info li.nav-item a.nav-link {
+      font-size: 10px; } }
+  .donate-wrapper #donate-info li.nav-item a.nav-link.active, .donate-wrapper #donate-info li.nav-item a.nav-link:hover {
+    position: relative; }
+    .donate-wrapper #donate-info li.nav-item a.nav-link.active:after, .donate-wrapper #donate-info li.nav-item a.nav-link:hover:after {
+      width: 0;
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translate(-50%);
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      content: '';
+      border-top: 20px solid #BAC34B; }
+
+.donate-wrapper #donate-info li.nav-item:last-of-type a.nav-link {
+  border-right: none; }
+
 .donate-wrapper .limit-width {
   width: 70px;
   display: -ms-inline-flexbox;
   display: inline-flex; }
 
-.donate-wrapper a[role="tab"] {
+.donate-wrapper #donate-cta a[role="tab"] {
   background: #EFAA3F; }
-  .donate-wrapper a[role="tab"]:hover, .donate-wrapper a[role="tab"].active {
+  .donate-wrapper #donate-cta a[role="tab"]:hover, .donate-wrapper #donate-cta a[role="tab"].active {
     background: #BAC34B; }
 
-.donate-wrapper input[type="number"] {
+.donate-wrapper #donate-cta input[type="number"] {
   border: none;
   text-indent: 1rem;
   color: #242424;
   line-height: 2rem;
   font-family: Eveleth-Thin, Arial; }
 
-.donate-wrapper .other-amount {
+.donate-wrapper #donate-cta .other-amount {
   display: none; }
 
-.donate-wrapper .donate-submit {
+.donate-wrapper #donate-cta .donate-submit {
   border-radius: 5px;
   background: #EFAA3F; }
-  .donate-wrapper .donate-submit:hover {
+  .donate-wrapper #donate-cta .donate-submit:hover {
     background: #BAC34B; }
-  .donate-wrapper .donate-submit img {
+  .donate-wrapper #donate-cta .donate-submit img {
     width: 50px;
     height: 50px; }
 

@@ -31,12 +31,31 @@
         </div><!-- #header -->
     </header>
     <div  id="donate-content" class="container my-5">
-        <div class="row ">
+            <div class="row ">
 
+                <div id="donate-info" class="col-12 py-5 content-area">
+                    <h2 class="text-uppercase mb-4">{{ post.get_field('more_info_block_title') }}</h1>
+                    <!-- Nav tabs -->
+                    <ul class="nav bg-green py-3" role="tablist">
+                        {% for item in post.get_field('more_info_block') %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content bg-l-grey p-4">
+                        {% for item in post.get_field('more_info_block') %}
+                        <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="mission{{ loop.index }}" role="tabpanel">{{ item.content }}</div>
+                        {% endfor %}
+                    </div>
+
+            </div>
             
 
 
-            <div class="col-12 content-area ">
+            <div id="donate-cta" class="col-12 content-area ">
                 <a name="_donate"></a>
                 <div class="text-center grey-border-block pb-4">
                     <h3 class="font-eveleth-thin text-uppercase">{{ pll__('I would like to') }}</h3>
