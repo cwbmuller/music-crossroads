@@ -6724,7 +6724,7 @@ a.skip-link {
   background-color: #EFAA3F !important; }
 
 .bg-l-grey {
-  background-color: #E4E4E4 !important; }
+  background-color: #F7F0E8 !important; }
 
 .bg-m-grey {
   background-color: #B3C1C8 !important; }
@@ -6967,7 +6967,7 @@ select.custom-select {
   width: 100%; }
 
 .grey-border-block {
-  border-bottom: 2px dashed #E4E4E4; }
+  border-bottom: 2px dashed #F7F0E8; }
 
 .video-container {
   position: relative;
@@ -9218,7 +9218,7 @@ select.custom-select {
     min-width: 0;
     text-align: center; }
     #wrapper-navbar .dropdown-menu .menu-item a:hover {
-      background-color: #E4E4E4; }
+      background-color: #F7F0E8; }
   #wrapper-navbar .c-hamburger {
     display: block;
     position: relative;

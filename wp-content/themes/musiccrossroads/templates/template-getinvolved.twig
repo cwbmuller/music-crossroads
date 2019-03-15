@@ -37,12 +37,11 @@
                     <!-- Nav tabs -->
 
                     <ul class="nav my-3" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active m-0 py-0 px-3 font-eveleth text-white" data-toggle="tab" href="#work" role="tab">{{ pll__('Work with us') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link py-0 m-0 px-3 font-eveleth text-white" data-toggle="tab" href="#sponsor" role="tab">{{ pll__('Become a sponsor') }}</a>
-                        </li>
+                        {% for item in post.get_field('get_involved_tabs') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#get_involved_{{ loop.index }}" role="tab">{{ item.title }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
 
@@ -50,80 +49,62 @@
             <div class="container px-0">
                 <div class="row no-gutters">
                     <div class="col-12 content-area">
-
-                            <!-- Tab panes -->
-                            <div id="outer-tab" class="tab-content  py-5 px-md-4">
-
-                                <div class="tab-pane active" id="work" role="tabpanel">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-8 p-3 content-area">
-                                            <h2 class="pb-4 text-orange text-uppercase">{{ pll__('Current openings') }}</h2>
-                                            <div class="mb-4 row no-gutters">
-                                                {% for job in jobs %}
-
-                                                    <div class="col-12 mb-4 pb-3 grey-border-block">
-                                                        <a name="_{{ job.slug }}"></a>
-                                                        <h3 class="text-brown font-eveleth  text-uppercase">{{ job.title }}</h3>
-                                                        <h5 class="text-green font-eveleth text-uppercase mb-4">{{  job.terms('team_country')[0].name}}</h5>
-
-                                                        {{ job.content }}
-                                                        <a href="mailto:info@music-crossroads.net" class="my-4 text-orange cta-btn text-white text-uppercase ">{{ pll__('Apply now') }}</a>
-
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
+                        <div class="row my-4 no-gutters">
+                            <div class="col-md-8 p-3 content-area">
+                                <!-- Tab panes -->
+                                <div id="outer-tab" class="tab-content  py-5 px-md-4">
+                                   {% for item in post.get_field('get_involved_tabs') %}
+                                        <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="get_involved_{{ loop.index }}" role="tabpanel">
+                                            {{ item.content }}
                                         </div>
-
-                                        <div class="col-md-4 text-center ">
-                                            <div class="mb-5 bg-brown">
-                                                <div class="bg-orange p-4">
-                                                    <h3 class="mb-0 text-white font-eveleth text-uppercase">{{ pll__('How to apply') }}</h3>
-                                                </div>
-                                                <div class="p-4">
-                                                    <p>{{ post.get_field('_how_to_apply') }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="mb-5">
-                                                <div class="bg-orange p-4">
-                                                    <h3 class="text-white">{{ pll__('Keep up to date with Music Crossroads') }}:</h3>
-                                                </div>
-                                                <div class="bg-brown p-4">
-                                                    <a href="#" data-toggle="modal" data-target="#subscribe-modal" class=" cta-btn text-white text-uppercase ">{{ pll__('Click to subscribe') }}</a>
-
-                                                </div>
-                                            </div>
-
-                                            <div >
-                                                <h3 class="text-white mb-4"><span class="text-mc-bg bg-brown text-uppercase"><span class="inner">{{ pll__('Recent') }}</span></span></br><span class="text-mc-r"><span class="inner">{{ pll__('Jobs') }}</span></span></h3>
-                                                {% for job in jobs %}
-                                                    <div class="col-12 mb-4 pb-3 grey-border-block">
-                                                        <a class="text-brown" href="#_{{ job.slug }}"><h3 class=" font-eveleth  text-uppercase">{{ job.title }}</h3></a>
-                                                        <h5 class="text-green font-eveleth text-uppercase mb-4">{{  job.terms('team_country')[0].name}}</h5>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
-
-                                <div class="tab-pane" id="sponsor" role="tabpanel">
-                                    <h2 class="pb-4 text-uppercase text-center  font-eveleth-thin">{{ post._sponsor_title }}</h2>
-                                    <div class="row no-gutters">
-                                        <div class="col-md-6 p-3">
-                                            {{ post._sponsor_content_left }}
-                                        </div>
-                                        <div class="col-md-6 p-3">
-                                            {{ post._sponsor_content_right }}
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
+                            <div class="col-md-4 text-center ">
+                                <div class="mb-5 bg-brown">
+                                    <div class="bg-orange p-4">
+                                        <h3 class="mb-0 text-white font-eveleth text-uppercase">{{ pll__('How to apply') }}</h3>
+                                    </div>
+                                    <div class="p-4">
+                                        <p>{{ post.get_field('_how_to_apply') }}</p>
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <div class="bg-orange p-4">
+                                        <h3 class="text-white">{{ pll__('Keep up to date with Music Crossroads') }}:</h3>
+                                    </div>
+                                    <div class="bg-brown p-4">
+                                        <a href="#" data-toggle="modal" data-target="#subscribe-modal" class=" cta-btn text-white text-uppercase ">{{ pll__('Click to subscribe') }}</a>
+
+                                </div>
+                            </div>
+
+                        
+
+                        </div>
                     </div>
 
                 </div>
             </div>
+            {% if jobs %}
+            <div>
+                <h2 class="pb-4 text-orange text-uppercase">{{ pll__('Current openings') }}</h2>
+                <div class="mb-4 row no-gutters">
+                    {% for job in jobs %}
+
+                        <div class="col-12 mb-4 pb-3 grey-border-block">
+                            <a name="_{{ job.slug }}"></a>
+                            <h3 class="text-brown font-eveleth  text-uppercase">{{ job.title }}</h3>
+                            <h5 class="text-green font-eveleth text-uppercase mb-4">{{  job.terms('team_country')[0].name}}</h5>
+
+                            {{ job.content }}
+                            <a href="mailto:info@music-crossroads.net" class="my-4 text-orange cta-btn text-white text-uppercase ">{{ pll__('Apply now') }}</a>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
             <div  id="partners-content" class="container py-5">
 
                 <div class="row justify-content-center ">
