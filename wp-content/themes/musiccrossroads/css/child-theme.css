@@ -9564,6 +9564,24 @@ select.custom-select {
 .media-wrapper .gallery-menu li.nav-item:last-of-type a.nav-link {
   border-right: none; }
 
+.media-wrapper #artist-container li.nav-item {
+  border-right: 1px solid white; }
+  .media-wrapper #artist-container li.nav-item a.nav-link {
+    border-radius: 50%;
+    padding: 0 0.5rem !important;
+    margin: 0 0.5rem !important; }
+    @media (max-width: 767px) {
+      .media-wrapper #artist-container li.nav-item a.nav-link {
+        font-size: 10px; } }
+    .media-wrapper #artist-container li.nav-item a.nav-link.active, .media-wrapper #artist-container li.nav-item a.nav-link:hover {
+      position: relative;
+      background: white;
+      color: #242424 !important; }
+    .media-wrapper #artist-container li.nav-item a.nav-link:after {
+      content: none; }
+  .media-wrapper #artist-container li.nav-item:last-of-type, .media-wrapper #artist-container li.nav-item:first-of-type {
+    border-right: none; }
+
 .artist-wrapper .tab-pane .pane-block {
   border-right: 1px solid white; }
   .artist-wrapper .tab-pane .pane-block:nth-child(n+2) {
