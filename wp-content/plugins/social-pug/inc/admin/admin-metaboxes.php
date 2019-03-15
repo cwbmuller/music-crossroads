@@ -114,14 +114,18 @@
 
 		$post_id = (int)$_POST['post_id'];
 
-		// Flush existing shares before pulling a new set
-		update_post_meta( $post_id, 'dpsp_networks_shares', '' );
+		if( ! in_array( $post->post_status, array( 'future', 'draft', 'pending', 'trash', 'auto-draft' ) ) ) {
 
-		// Get social shares from the networks
-		$share_counts   = dpsp_pull_post_share_counts( $post_id );
+			// Flush existing shares before pulling a new set
+			update_post_meta( $post_id, 'dpsp_networks_shares', '' );
 
-		// Update share counts in the db
-		$shares_updated = dpsp_update_post_share_counts( $post_id, $share_counts );
+			// Get social shares from the networks
+			$share_counts   = dpsp_pull_post_share_counts( $post_id );
+
+			// Update share counts in the db
+			$shares_updated = dpsp_update_post_share_counts( $post_id, $share_counts );
+			
+		}
 
 		// Echos the share statistics 
 		dpsp_share_statistics_output( get_post( $post_id ) );

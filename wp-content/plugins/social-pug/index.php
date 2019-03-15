@@ -3,7 +3,7 @@
  * Plugin Name: Social Pug
  * Plugin URI: http://www.devpups.com/social-pug/
  * Description: Add beautiful social sharing buttons to your posts, pages and custom post types.
- * Version: 1.4.9
+ * Version: 1.5.2
  * Author: DevPups, Mihai Iova
  * Author URI: http://www.devpups.com/
  * Text Domain: social-pug
@@ -37,7 +37,7 @@ Class Social_Pug {
 	public function __construct() {
 
 		// Defining constants
-		define('DPSP_VERSION', '1.4.9');
+		define('DPSP_VERSION', '1.5.2');
 		define('DPSP_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . dirname( plugin_basename(__FILE__) ) );
 		define('DPSP_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 		define('DPSP_TRANSLATION_DIR', DPSP_PLUGIN_DIR . '/translations' );
@@ -165,6 +165,15 @@ Class Social_Pug {
 			else
 				update_option( 'dpsp_welcome_screen_got_it', 1 );
 
+			/**
+			 * Do extra database updates on plugin update
+			 *
+			 * @param string $dpsp_db_version - the previous version of the plugin
+			 * @param string DPSP_VERSION     - the new (current) version of the plugin
+			 *
+			 */
+			do_action( 'dpsp_update_database', $dpsp_db_version, DPSP_VERSION );
+
 		}
 
 	}
@@ -203,6 +212,10 @@ Class Social_Pug {
 	 *
 	 */
 	public function load_resources_front_end() {
+
+		// Database version update file
+		if( file_exists( DPSP_PLUGIN_DIR . '/inc/functions-version-update.php' ) )
+			include_once( DPSP_PLUGIN_DIR . '/inc/functions-version-update.php' );
 
 		// Functions
 		if( file_exists( DPSP_PLUGIN_DIR . '/inc/functions.php' ) )
@@ -258,10 +271,6 @@ Class Social_Pug {
 
 		if( file_exists( DPSP_PLUGIN_DIR . '/inc/admin/feedback-form/functions-ajax.php' ) )
 			include_once( DPSP_PLUGIN_DIR . '/inc/admin/feedback-form/functions-ajax.php' );
-
-		// Deactivation form
-		if( file_exists( DPSP_PLUGIN_DIR . '/inc/admin/deactivate/functions.php' ) )
-			include_once( DPSP_PLUGIN_DIR . '/inc/admin/deactivate/functions.php' );
 
 		// Admin extras
 		if( file_exists( DPSP_PLUGIN_DIR . '/inc/admin/admin-metaboxes.php' ) )

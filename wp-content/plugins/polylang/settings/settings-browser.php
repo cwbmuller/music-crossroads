@@ -15,12 +15,15 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 	 * @param object $polylang polylang object
 	 */
 	public function __construct( &$polylang ) {
-		parent::__construct( $polylang, array(
-			'module'        => 'browser',
-			'title'         => __( 'Detect browser language', 'polylang' ),
-			'description'   => __( 'When the front page is visited, set the language according to the browser preference', 'polylang' ),
-			'active_option' => $this->is_available() ? 'browser' : false,
-		) );
+		parent::__construct(
+			$polylang,
+			array(
+				'module'        => 'browser',
+				'title'         => __( 'Detect browser language', 'polylang' ),
+				'description'   => __( 'When the front page is visited, set the language according to the browser preference', 'polylang' ),
+				'active_option' => $this->is_available() ? 'browser' : false,
+			)
+		);
 
 		if ( ! class_exists( 'PLL_Xdata_Domain', true ) ) {
 			add_action( 'admin_print_footer_scripts', array( $this, 'print_js' ) );
@@ -76,7 +79,7 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 				$( "input[name='force_lang']" ).change( function() {
 					var value = $( this ).val();
 					if ( 3 > value ) {
-						$( "#pll-module-browser" ).<?php echo $func;?>.children( "td" ).children( ".row-actions" ).html( '<?php echo $link; ?>' );
+						$( "#pll-module-browser" ).<?php echo $func; ?>.children( "td" ).children( ".row-actions" ).html( '<?php echo $link; ?>' );
 					}
 					else {
 						$( "#pll-module-browser" ).removeClass( "active" ).addClass( "inactive" ).children( "td" ).children( ".row-actions" ).html( '<?php echo $deactivated; ?>' );
@@ -84,6 +87,7 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 				} );
 			} )( jQuery );
 			// ]]>
-		</script><?php
+		</script>
+		<?php
 	}
 }

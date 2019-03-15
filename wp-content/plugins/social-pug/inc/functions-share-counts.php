@@ -34,19 +34,25 @@
 				continue;
 
 			/**
-			 * Take into account Twitter old counts from NewShareCounts
+			 * Take into account Twitter old counts from NewShareCounts and OpenShareCount
+			 *
+			 * The post meta "dpsp_cache_shares_twitter" was used for NewShareCounts
+			 * The post meta "dpsp_cache_shares_twitter_2" was used for OpenShareCount
 			 *
 			 */
 			if( $network_slug == 'twitter' && isset( $networks_shares[$network_slug] ) ) {
 
-				$cached_old_twitter_shares = get_post_meta( $post_id, 'dpsp_cache_shares_twitter', true );
+				$cached_old_twitter_shares = get_post_meta( $post_id, 'dpsp_cache_shares_twitter_2', true );
 
 				// Add the Twitter shares to the cache if they do not exist
 				if( $cached_old_twitter_shares == '' ) {
 
 					$cached_old_twitter_shares = absint( $networks_shares[$network_slug] );
 
-					update_post_meta( $post_id, 'dpsp_cache_shares_twitter', $cached_old_twitter_shares );
+					update_post_meta( $post_id, 'dpsp_cache_shares_twitter_2', $cached_old_twitter_shares );
+
+					// Delete the post meta for NewShareCounts
+					delete_post_meta( $post_id, 'dpsp_cache_shares_twitter' );
 
 				}
 
@@ -95,7 +101,10 @@
 		if( is_null( $current_post ) )
 			return;
 
-		$expired = dpsp_is_post_share_counts_cache_expired( $current_post->ID );
+		if( in_array( $current_post->post_status, array( 'future', 'draft', 'pending', 'trash', 'auto-draft' ) ) )
+			return;
+
+		$expired = dpsp_is_post_share_counts_cache_expired( $current_post );
 
 		if( ! $expired )
 			return;
@@ -187,7 +196,7 @@
 				break;
 
 			case 'twitter':
-				$url = 'http://opensharecount.com/count.json?url=' . $page_url ;
+				$url = 'https://counts.twitcount.com/counts.php?url=' . $page_url;
 				break;
 
 			case 'pinterest':

@@ -398,7 +398,11 @@
 				break;
 
 			case 'twitter':
-				return sprintf( 'https://twitter.com/intent/tweet?text=%2$s&url=%1$s', $post_url, $post_title );
+				$settings = get_option( 'dpsp_settings' );
+
+				$via = ( !empty( $settings['twitter_username'] ) && !empty( $settings['tweets_have_username'] ) ) ? '&via=' . $settings['twitter_username'] : '';
+
+				return sprintf( 'https://twitter.com/intent/tweet?text=%2$s&url=%1$s%3$s', $post_url, $post_title, $via );
 				break;
 
 			case 'google-plus':

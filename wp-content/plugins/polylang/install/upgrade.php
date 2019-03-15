@@ -12,6 +12,8 @@ class PLL_Upgrade {
 	 * Constructor
 	 *
 	 * @since 1.2
+	 *
+	 * @param array $options Polylang options
 	 */
 	public function __construct( &$options ) {
 		$this->options = &$options;
@@ -73,8 +75,8 @@ class PLL_Upgrade {
 			'<div class="error"><p>%s</p><p>%s</p></div>',
 			esc_html__( 'Polylang has been deactivated because you upgraded from a too old version.', 'polylang' ),
 			sprintf(
-				/* translators: %s are Polylang version numbers */
-				esc_html__( 'Please upgrade first to %s before ugrading to %s.', 'polylang' ),
+				/* translators: %1$s and %2$s are Polylang version numbers */
+				esc_html__( 'Please upgrade first to %1$s before ugrading to %2$s.', 'polylang' ),
 				'<strong>0.9.8</strong>',
 				POLYLANG_VERSION
 			)
@@ -87,7 +89,7 @@ class PLL_Upgrade {
 	 * @since 1.2
 	 */
 	public function _upgrade() {
-		foreach ( array( '0.9', '1.0', '1.1', '1.2', '1.2.1', '1.2.3', '1.3', '1.4', '1.4.1', '1.4.4', '1.5', '1.6', '1.7.4', '1.8', '2.0.8', '2.1' ) as $version ) {
+		foreach ( array( '0.9', '1.0', '1.1', '1.2', '1.2.1', '1.2.3', '1.3', '1.4', '1.4.1', '1.4.4', '1.5', '1.6', '1.7.4', '1.8', '2.0.8', '2.1', '2.3' ) as $version ) {
 			if ( version_compare( $this->options['version'], $version, '<' ) ) {
 				call_user_func( array( $this, 'upgrade_' . str_replace( '.', '_', $version ) ) );
 			}
@@ -164,7 +166,7 @@ class PLL_Upgrade {
 
 		// Need to register the taxonomies
 		foreach ( array( 'language', 'term_language', 'post_translations', 'term_translations' ) as $taxonomy ) {
-			register_taxonomy( $taxonomy, null , array( 'label' => false, 'public' => false, 'query_var' => false, 'rewrite' => false ) );
+			register_taxonomy( $taxonomy, null, array( 'label' => false, 'public' => false, 'query_var' => false, 'rewrite' => false ) );
 		}
 
 		// Abort if the db upgrade has already been done previously
@@ -191,7 +193,7 @@ class PLL_Upgrade {
 		}
 
 		// Get all terms with a language defined
-		$terms = $wpdb->get_results( "SELECT term_id, meta_value FROM $wpdb->termmeta WHERE meta_key = '_language'" );
+		$terms = $wpdb->get_results( "SELECT term_id, meta_value FROM {$wpdb->termmeta} WHERE meta_key = '_language'" );
 		foreach ( $terms as $key => $term ) {
 			$terms[ $key ] = $wpdb->prepare( '( %d, %d )', $term->term_id, $lang_tt_ids[ $term->meta_value ] );
 		}
@@ -200,7 +202,8 @@ class PLL_Upgrade {
 
 		// Assign language to each term
 		if ( ! empty( $terms ) ) {
-			$wpdb->query( "INSERT INTO $wpdb->term_relationships ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $terms ) );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "INSERT INTO {$wpdb->term_relationships} ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $terms ) );
 		}
 
 		// Translations
@@ -209,6 +212,7 @@ class PLL_Upgrade {
 			$terms = $slugs = $tts = $trs = array();
 
 			// Get all translated objects
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$objects = $wpdb->get_col( "SELECT DISTINCT meta_value FROM {$wpdb->$table} WHERE meta_key = '_translations'" );
 
 			if ( empty( $objects ) ) {
@@ -217,8 +221,8 @@ class PLL_Upgrade {
 
 			foreach ( $objects as $obj ) {
 				$term = uniqid( 'pll_' ); // The term name
-				$terms[] = $wpdb->prepare( '( "%1$s", "%1$s" )', $term );
-				$slugs[] = $wpdb->prepare( '"%s"', $term );
+				$terms[] = $wpdb->prepare( '( %s, %s )', $term, $term );
+				$slugs[] = $wpdb->prepare( '%s', $term );
 				$translations = maybe_unserialize( maybe_unserialize( $obj ) ); // 2 unserialize due to an old storage bug
 				$description[ $term ] = serialize( $translations );
 			}
@@ -227,22 +231,25 @@ class PLL_Upgrade {
 
 			// Insert terms
 			if ( ! empty( $terms ) ) {
-				$wpdb->query( "INSERT INTO $wpdb->terms ( slug, name ) VALUES " . implode( ',', $terms ) );
+				// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$wpdb->query( "INSERT INTO {$wpdb->terms} ( slug, name ) VALUES " . implode( ',', $terms ) );
 			}
 
 			// Get all terms with their term_id
-			$terms = $wpdb->get_results( "SELECT term_id, slug FROM $wpdb->terms WHERE slug IN ( " . implode( ',', $slugs ) . " )" );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$terms = $wpdb->get_results( "SELECT term_id, slug FROM $wpdb->terms WHERE slug IN ( " . implode( ',', $slugs ) . ' )' );
 
 			// Prepare terms taxonomy relationship
 			foreach ( $terms as $term ) {
-				$tts[] = $wpdb->prepare( '( %d, "%s", "%s" )', $term->term_id, $type . '_translations', $description[ $term->slug ] );
+				$tts[] = $wpdb->prepare( '( %d, %s, %s )', $term->term_id, $type . '_translations', $description[ $term->slug ] );
 			}
 
 			$tts = array_unique( $tts );
 
 			// Insert term_taxonomy
 			if ( ! empty( $tts ) ) {
-				$wpdb->query( "INSERT INTO $wpdb->term_taxonomy ( term_id, taxonomy, description ) VALUES " . implode( ',', $tts ) );
+				// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$wpdb->query( "INSERT INTO {$wpdb->term_taxonomy} ( term_id, taxonomy, description ) VALUES " . implode( ',', $tts ) );
 			}
 
 			// Get all terms with term_taxonomy_id
@@ -262,7 +269,8 @@ class PLL_Upgrade {
 
 			// Insert term_relationships
 			if ( ! empty( $trs ) ) {
-				$wpdb->query( "INSERT INTO $wpdb->term_relationships ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $trs ) );
+				// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+				$wpdb->query( "INSERT INTO {$wpdb->term_relationships} ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $trs ) );
 			}
 		}
 
@@ -316,11 +324,15 @@ class PLL_Upgrade {
 
 						// Create the menu items for the language switcher
 						if ( ! empty( $has_switcher ) ) {
-							$menu_item_db_id = wp_update_nav_menu_item( $translations[ $lang->slug ], 0, array(
-								'menu-item-title' => __( 'Language switcher', 'polylang' ),
-								'menu-item-url' => '#pll_switcher',
-								'menu-item-status' => 'publish',
-							) );
+							$menu_item_db_id = wp_update_nav_menu_item(
+								$translations[ $lang->slug ],
+								0,
+								array(
+									'menu-item-title'  => __( 'Language switcher', 'polylang' ),
+									'menu-item-url'    => '#pll_switcher',
+									'menu-item-status' => 'publish',
+								)
+							);
 
 							update_post_meta( $menu_item_db_id, '_pll_menu_item', $switch_options );
 						}
@@ -486,7 +498,7 @@ class PLL_Upgrade {
 	 *
 	 * @since 1.6
 	 */
-	static function download_language_packs() {
+	public static function download_language_packs() {
 		$languages = pll_languages_list( array( 'fields' => 'locale' ) );
 
 		// Prevents upgrade if the .po file is already here. Let WP manage the upgrades :)
@@ -515,7 +527,7 @@ class PLL_Upgrade {
 
 		if ( ! empty( $translations_to_load ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$upgrader = new Language_Pack_Upgrader( new Automatic_Upgrader_Skin );
+			$upgrader = new Language_Pack_Upgrader( new Automatic_Upgrader_Skin() );
 			$upgrader->bulk_upgrade( $translations_to_load, array( 'clear_update_cache' => false ) );
 		}
 	}
@@ -544,7 +556,7 @@ class PLL_Upgrade {
 		foreach ( $terms as $lang ) {
 			$description = maybe_unserialize( $lang->description );
 			if ( isset( $languages[ $description['locale'] ] ) ) {
-				$description['flag_code'] = $languages[ $description['locale'] ][4];
+				$description['flag_code'] = $languages[ $description['locale'] ]['flag'];
 				$description = serialize( $description );
 				wp_update_term( (int) $lang->term_id, 'language', array( 'description' => $description ) );
 			}
@@ -585,4 +597,15 @@ class PLL_Upgrade {
 		}
 	}
 
+	/**
+	 * Upgrades if the previous version is < 2.3
+	 *
+	 * Deletes language cache due to 'redirect_lang' option removed for subdomains and multiple domains in 2.2
+	 * and W3C and Facebook locales added to PLL_Language objects in 2.3
+	 *
+	 * @since 2.3
+	 */
+	protected function upgrade_2_3() {
+		delete_transient( 'pll_languages_list' );
+	}
 }

@@ -12,12 +12,12 @@ class PLL_Widget_Languages extends WP_Widget {
 	 *
 	 * @since 0.1
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct(
 			'polylang',
 			__( 'Language Switcher', 'polylang' ),
 			array(
-				'description' => __( 'Displays a language switcher', 'polylang' ),
+				'description'                 => __( 'Displays a language switcher', 'polylang' ),
 				'customize_selective_refresh' => true,
 			)
 		);
@@ -31,7 +31,7 @@ class PLL_Widget_Languages extends WP_Widget {
 	 * @param array $args     Display arguments including before_title, after_title, before_widget, and after_widget.
 	 * @param array $instance The settings for the particular instance of the widget
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		// Sets a unique id for dropdown
 		$instance['dropdown'] = empty( $instance['dropdown'] ) ? 0 : $args['widget_id'];
 
@@ -45,7 +45,7 @@ class PLL_Widget_Languages extends WP_Widget {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 			if ( $instance['dropdown'] ) {
-				echo '<label class="screen-reader-text" for="' . esc_attr( 'lang_choice_' . $instance['dropdown'] ) . '">' . esc_html__( 'Choose a language', 'polylang' ). '</label>';
+				echo '<label class="screen-reader-text" for="' . esc_attr( 'lang_choice_' . $instance['dropdown'] ) . '">' . esc_html__( 'Choose a language', 'polylang' ) . '</label>';
 				echo $list;
 			} else {
 				echo "<ul>\n" . $list . "</ul>\n";
@@ -63,7 +63,7 @@ class PLL_Widget_Languages extends WP_Widget {
 	 * @param array $old_instance Old settings for this instance
 	 * @return array Settings to save or bool false to cancel saving
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance['title'] = strip_tags( $new_instance['title'] );
 		foreach ( array_keys( PLL_Switcher::get_switcher_options( 'widget' ) ) as $key ) {
 			$instance[ $key ] = ! empty( $new_instance[ $key ] ) ? 1 : 0;
@@ -79,7 +79,7 @@ class PLL_Widget_Languages extends WP_Widget {
 	 *
 	 * @param array $instance Current settings
 	 */
-	function form( $instance ) {
+	public function form( $instance ) {
 		// Default values
 		$instance = wp_parse_args( (array) $instance, array_merge( array( 'title' => '' ), PLL_Switcher::get_switcher_options( 'widget', 'default' ) ) );
 
@@ -126,7 +126,8 @@ class PLL_Widget_Languages extends WP_Widget {
 			return;
 		}
 
-		$done = true; ?>
+		$done = true;
+		?>
 		<script type='text/javascript'>
 			//<![CDATA[
 			jQuery( document ).ready( function( $ ) {
@@ -152,6 +153,7 @@ class PLL_Widget_Languages extends WP_Widget {
 				} );
 			} );
 			//]]>
-		</script><?php
+		</script>
+		<?php
 	}
 }

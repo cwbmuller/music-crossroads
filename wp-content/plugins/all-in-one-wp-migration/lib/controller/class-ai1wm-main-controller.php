@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014-2018 ServMask Inc.
+ * Copyright (C) 2014-2019 ServMask Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
  * ███████║███████╗██║  ██║ ╚████╔╝ ██║ ╚═╝ ██║██║  ██║███████║██║  ██╗
  * ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Kangaroos cannot jump here' );
+}
 
 class Ai1wm_Main_Controller {
 
@@ -53,6 +57,9 @@ class Ai1wm_Main_Controller {
 		if ( extension_loaded( 'litespeed' ) ) {
 			$this->create_litespeed_htaccess( AI1WM_WORDPRESS_HTACCESS );
 		}
+
+		$this->setup_folders();
+		$this->create_secret_key();
 	}
 
 	/**
@@ -78,6 +85,9 @@ class Ai1wm_Main_Controller {
 
 		// Setup folders
 		add_action( 'admin_init', array( $this, 'setup_folders' ) );
+
+		// Create secret key
+		add_action( 'admin_init', array( $this, 'create_secret_key' ) );
 
 		// Schedule crons
 		add_action( 'admin_init', array( $this, 'schedule_crons' ) );
@@ -270,6 +280,18 @@ class Ai1wm_Main_Controller {
 		// Check if web.config is created in backups folder
 		if ( ! is_file( AI1WM_BACKUPS_WEBCONFIG ) ) {
 			$this->create_backups_webconfig( AI1WM_BACKUPS_WEBCONFIG );
+		}
+	}
+
+	/**
+	 * Create secret key if they don't exist yet
+	 *
+	 * @return void
+	 */
+	public function create_secret_key() {
+		// Set secret key
+		if ( ! get_option( AI1WM_SECRET_KEY ) ) {
+			update_option( AI1WM_SECRET_KEY, wp_generate_password( 12, false ) );
 		}
 	}
 
@@ -712,6 +734,10 @@ class Ai1wm_Main_Controller {
 			'secret_key' => get_option( AI1WM_SECRET_KEY ),
 		) );
 
+		wp_localize_script( 'ai1wm_import', 'ai1wm_compatibility', array(
+			'messages' => Ai1wm_Compatibility::get( array() ),
+		) );
+
 		wp_localize_script( 'ai1wm_import', 'ai1wm_locale', array(
 			'stop_importing_your_website'         => __( 'You are about to stop importing your website, are you sure?', AI1WM_PLUGIN_NAME ),
 			'preparing_to_import'                 => __( 'Preparing to import...', AI1WM_PLUGIN_NAME ),
@@ -912,11 +938,6 @@ class Ai1wm_Main_Controller {
 	 * @return void
 	 */
 	public function init() {
-
-		// Set secret key
-		if ( ! get_option( AI1WM_SECRET_KEY ) ) {
-			update_option( AI1WM_SECRET_KEY, wp_generate_password( 12, false ) );
-		}
 
 		// Set username
 		if ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
