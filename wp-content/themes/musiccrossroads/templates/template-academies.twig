@@ -26,7 +26,7 @@
                     </div>
                     {% for academy in academies %}
                         <div id="{{ academy.slug }}-copy" class="my-4 country-block" >
-                            <h2 class="text-green text-uppercase">{{ academy.title }}</h2>
+                            <h2 class="text-white text-uppercase">{{ academy.title }}</h2>
                             <div class="text-white ">{{ academy.get_field('header_excerpt') }}</div>
                         </div>
                     {% endfor %}
