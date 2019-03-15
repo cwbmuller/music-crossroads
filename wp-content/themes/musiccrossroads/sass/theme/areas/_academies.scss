@@ -47,4 +47,23 @@
       cursor: pointer;
     }
   }
+  .carousel-control-next, .carousel-control-prev {
+    @include breakpoint(phone) {
+      top: -3rem;
+      bottom: auto;
+
+    }
+    width: 7%;
+  }
+  .carousel-control-next-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-right-dark.svg');
+    width: 40px;
+    height: 40px;
+
+  }
+  .carousel-control-prev-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-left-dark.svg');
+    width: 40px;
+    height: 40px;
+  }
 }

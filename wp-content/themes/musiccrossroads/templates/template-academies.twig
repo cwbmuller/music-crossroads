@@ -86,6 +86,48 @@
             {% endfor %}
         </div>
 
+        <div class="row"> 
+            <h2 class="mb-4" >Our stories</h2>
+
+            <div class="col-12 content-area grey-border-block mt-md-0 mt-4 pb-4 mb-5 ">
+                    
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner" role="listbox">
+                            {% for item in post.get_field('_showcase') %}
+                                <div class="carousel-item  {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="row">
+                                        <div class="col-md-10 offset-md-1 mb-4" >
+                                            <div class="p-4" style="{{ mixin.bgImg(item.image, 0.3) }}; min-height: 400px">
+                                                <h2 class="text-white font-eveleth text-uppercase">{{ item.title }}</h2>
+                                                <h3 class="text-orange font-eveleth text-uppercase">{{ item.sub_title }}</h3>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-5 offset-md-1 ">
+                                            {{ item.left_content }}
+                                        </div>
+                                        <div class="col-md-5">
+                                            {{ item.right_content }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
 
