@@ -1,0 +1,196 @@
+# Copyright (C) 2017 Looks Awesome
+# This file is distributed under the same license as the Flow-Flow Lite package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Flow-Flow Lite 3.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/flow-flow\n"
+"POT-Creation-Date: 2017-10-22 07:58:45+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Team Name <team@example.com>\n"
+"X-Generator: grunt-wp-i18n 0.4.9\n"
+
+#: includes/FlowFlow.php:65
+msgid "All"
+msgstr ""
+
+#: includes/FlowFlow.php:66
+msgid "Search"
+msgstr ""
+
+#: includes/FlowFlow.php:67
+msgid "Expand"
+msgstr ""
+
+#: includes/FlowFlow.php:68
+msgid "Collapse"
+msgstr ""
+
+#: includes/FlowFlow.php:69
+msgid "Posted on"
+msgstr ""
+
+#: includes/FlowFlow.php:70
+msgid "Show more"
+msgstr ""
+
+#: includes/FlowFlow.php:73
+msgid "Yesterday"
+msgstr ""
+
+#: includes/FlowFlow.php:74
+msgid "s"
+msgstr ""
+
+#: includes/FlowFlow.php:75
+msgid "m"
+msgstr ""
+
+#: includes/FlowFlow.php:76
+msgid "h"
+msgstr ""
+
+#: includes/FlowFlow.php:77
+msgid "ago"
+msgstr ""
+
+#: includes/FlowFlow.php:79
+msgid "Jan"
+msgstr ""
+
+#: includes/FlowFlow.php:79
+msgid "Feb"
+msgstr ""
+
+#: includes/FlowFlow.php:79
+msgid "March"
+msgstr ""
+
+#: includes/FlowFlow.php:80
+msgid "April"
+msgstr ""
+
+#: includes/FlowFlow.php:80
+msgid "May"
+msgstr ""
+
+#: includes/FlowFlow.php:80
+msgid "June"
+msgstr ""
+
+#: includes/FlowFlow.php:81
+msgid "July"
+msgstr ""
+
+#: includes/FlowFlow.php:81
+msgid "Aug"
+msgstr ""
+
+#: includes/FlowFlow.php:81
+msgid "Sept"
+msgstr ""
+
+#: includes/FlowFlow.php:82
+msgid "Oct"
+msgstr ""
+
+#: includes/FlowFlow.php:82
+msgid "Nov"
+msgstr ""
+
+#: includes/FlowFlow.php:82
+msgid "Dec"
+msgstr ""
+
+#: includes/FlowFlow.php:85
+msgid "Navigate with arrow keys"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:44
+msgid "Social Stream"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:48
+msgid "Flow-Flow plugin social stream"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:50
+msgid "Social"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:59
+msgid "Choose stream to place on page:"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:208
+msgid "Technical problems / hard to use"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:212
+msgid "Free version is limited"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:216
+msgid "Premium is expensive"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:220
+msgid "Upgrading to paid version"
+msgstr ""
+
+#: includes/FlowFlowActivator.php:224
+msgid "Not what I need"
+msgstr ""
+
+#: includes/FlowFlowWPWidget.php:59
+msgid "Title:"
+msgstr ""
+
+#: includes/FlowFlowWPWidget.php:63
+msgid "Stream:"
+msgstr ""
+
+#: includes/LAAdminBase.php:94 includes/LAAdminBase.php:215
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/display_deactivation_popup.php:8
+msgid ""
+"Please kindly let us know why you are deactivating. Your answer will help "
+"us to serve you better"
+msgstr ""
+
+#: includes/display_deactivation_popup.php:23
+msgid "Deactivate"
+msgstr ""
+
+#: includes/display_deactivation_popup.php:26
+msgid "Submit and deactivate"
+msgstr ""
+
+#: includes/display_deactivation_popup.php:28
+msgid "Cancel"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Flow-Flow Lite"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "social-streams.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Awesome social streams on your site"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Looks Awesome"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "looks-awesome.com"
+msgstr ""
