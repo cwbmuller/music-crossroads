@@ -9349,6 +9349,18 @@ select.custom-select {
     margin-bottom: 0.5rem;
     transition: opacity 0.5s linear, margin 0.5s; }
 
+#partners-content a {
+  height: 100px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center; }
+  #partners-content a img {
+    max-height: 100px;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center; }
+
 #impact-content ul {
   list-style-type: none; }
   #impact-content ul a.nav-link.active {

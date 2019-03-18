@@ -51,3 +51,14 @@
     }
   }
 }
+#partners-content {
+  a {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    img {
+      max-height: 100px;
+      align-self: center;
+    }
+  }
+}
