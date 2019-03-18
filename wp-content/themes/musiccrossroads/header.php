@@ -75,7 +75,7 @@
                                         <a href="<?php echo get_field('_soundcloud_url','option') ?>" class="text-white mx-2" target="_blank"><i class="fa fa-soundcloud"></i></a>
                                     <?php } ?>
                                     <?php if (get_field('_email_address','option')) {?>
-                                        <a href="<?php echo get_field('_email_address','option') ?>" class="text-white mx-2" target="_blank"><i class="fa fa-envelope"></i></a>
+                                        <a href="mailto:<?php echo get_field('_email_address','option') ?>" class="text-white mx-2" target="_blank"><i class="fa fa-envelope"></i></a>
                                     <?php } ?>
                                 </div>
                             </div>
