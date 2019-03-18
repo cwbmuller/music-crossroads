@@ -19,7 +19,7 @@
             border-left: 20px solid transparent;
             border-right: 20px solid transparent;
             content: '';
-            border-top: 20px solid $mc-m-grey;
+            border-top: 20px solid $mc-brown;
           }
         }
 
@@ -48,6 +48,17 @@
       opacity: 1;
       margin-bottom: 0.5rem;
       transition: opacity 0.5s linear, margin 0.5s;
+    }
+  }
+}
+#partners-content {
+  a {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    img {
+      max-height: 100px;
+      align-self: center;
     }
   }
 }

@@ -10,10 +10,60 @@
       display: none;
     }
   }
+  #academies-content {
+    li.nav-item {
+      a.nav-link {
+        border-right: 1px solid white;
+        @include breakpoint(phone) {
+          font-size: 10px;
+        }
+        &.active,&:hover { 
+          position: relative;
+          &:after {
+            width: 0;
+            position: absolute;
+            bottom: -36px;
+            left: 50%;
+            transform: translate(-50%);
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            content: '';
+            border-top: 20px solid $mc-green;
+          }
+        }
+
+      }
+      &:last-of-type {
+        a.nav-link {
+          border-right: none
+        }
+      }
+    }
+  }
   #malawi, #mozambique, #zimbabwe {
     &:hover {
       fill:#ffffff;
       cursor: pointer;
     }
+  }
+  .carousel-control-next, .carousel-control-prev {
+    @include breakpoint(phone) {
+      top: -3rem;
+      bottom: auto;
+
+    }
+    width: 7%;
+  }
+  .carousel-control-next-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-right-dark.svg');
+    width: 40px;
+    height: 40px;
+
+  }
+  .carousel-control-prev-icon {
+    background-image: url('/wp-content/themes/musiccrossroads/media/nav-arrow-left-dark.svg');
+    width: 40px;
+    height: 40px;
   }
 }

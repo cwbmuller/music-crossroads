@@ -8,7 +8,7 @@
 {% block content %}
 <div class="wrapper media-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
 
-    <header class=""style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+    <header class=""style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
         <div  id="header" class="container" >
 
             <div class="row">
@@ -32,7 +32,7 @@
 
         <div class="row ">
 
-            <div class="col-12 content-area bg-m-grey">
+            <div class="col-12 content-area bg-brown">
                 <div class="container">
                     <!-- Nav tabs -->
 
@@ -83,28 +83,9 @@
                             </div>
                             <div class="loading-results loading-results-artist"></div>
                                 <div id="artist-container" class="row">
-                                    {% for artist in artists %}
-                                        <div class="col-md-4 mb-4">
-                                            <div class="artist-block square-me" style="{{  mixin.bgImg( fn('wp_get_attachment_image_url',artist.thumbnail.id, medium),0.3) }}">
-                                                <div class="inner">
-                                                    <a href="{{ artist.link}}">
-                                                        <div class="p-4" style="position: absolute; ">
-                                                            {% for term in artist.terms('category') %}
-                                                                <p class="d-inline-block m-1 font-eveleth text-orange">{{term.name}}</p>
-                                                            {% endfor %}
-                                                            <h3 class="mb-3 font-eveleth text-white">{{artist.title}}</h3>
-                                                            <h5 class="mb-2 font-eveleth text-orange">{{ artist.terms('music_genres')[0].name}}</h5>
-                                                            <div class=" text-white">{{ artist.content|length > 120 ? artist.content|slice(0, 120) ~ '...' : artist.content }}</div>
-                                                            <span class="cta-btn text-orange text-white text-uppercase ">{{ pll__('View artist') }}</span>
-                                                        </div>
-                                                    </a>
+                                   {% embed "template-media-artists-item.twig" %}
 
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                                    {% endembed %}
                                 </div>
 
                         </div>
@@ -128,13 +109,12 @@
                                 <div class="loading-results loading-results-music"></div>
                                 <div class="col-12">
                                     <div id="music-container" class="row">
-                                        <div class="col-12">
-                                            {% if artists[0]._soundcloud_embed  %}
-                                                {{ artists[0]._soundcloud_embed }}
-                                            {% else %}
-                                                <h3>{{ pll__('There is no music available for this artist') }}</h3>
-                                            {% endif %}
-                                        </div>
+                                        
+                                            {% set artist = artists[0] %}
+                                            {% embed "template-media-music-item.twig" %}
+
+                                            {% endembed %}
+                                        
                                     </div>
                                 </div>
 
@@ -172,26 +152,10 @@
                                         <div class="col-12">
 
                                             <div id="images-container" class="row">
-                                                {% if artists[0].get_field('_artist_gallery')  %}
-                                                    {% for image in artists[0].get_field('_artist_gallery') %}
-                                                        <div class="col-md-4 mb-4">
-                                                            <div class="artist-block square-me" style="{{  mixin.bgImg( fn('wp_get_attachment_image_url',image.id, medium),0.3) }}">
-                                                                <a href="{{ fn('wp_get_attachment_image_url',image.id,large)}}" data-rel="lightbox">
+                                                {% set artist = artists[0] %}
+                                                {% embed "template-media-images-item.twig" %}
 
-                                                                <div class="inner">
-
-
-
-
-                                                                </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    {% endfor %}
-                                                {% else %}
-                                                    <h3>{{ pll__('There are images avialable for this artist') }}</h3>
-                                                {% endif %}
+                                                {% endembed %}
                                             </div>
 
                                         </div>
@@ -213,18 +177,11 @@
 
                                     </div>
                                     <div class="loading-results loading-results-videos"></div>
-                                    <div id="videos-container">
-                                        {% if artists[0].get_field('_artist_videos')  %}
-                                            {% for video in artists[0].get_field('_artist_videos') %}
-                                                <div class="col-md-6 mb-4 ">
-                                                    <div class="video-box">
-                                                    {{ video.video_url }}
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        {% else %}
-                                            <h3>{{ pll__('There are no videos available for this artist') }}</h3>
-                                        {% endif %}
+                                    <div id="videos-container" class="row">
+                                          {% set artist = artists[0] %}
+                                            {% embed "template-media-videos-item.twig" %}
+
+                                            {% endembed %}
                                     </div>
                                     <div class="row">
 

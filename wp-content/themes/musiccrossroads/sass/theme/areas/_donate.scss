@@ -1,8 +1,40 @@
 .donate-wrapper {
+  #donate-info {
+    li.nav-item {
+      a.nav-link {
+        border-right: 1px solid white;
+        @include breakpoint(phone) {
+          font-size: 10px;
+        }
+        &.active,&:hover { 
+          position: relative;
+          &:after {
+            width: 0;
+            position: absolute;
+            bottom: -36px;
+            left: 50%;
+            transform: translate(-50%);
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            content: '';
+            border-top: 20px solid $mc-green;
+          }
+        }
+
+      }
+      &:last-of-type {
+        a.nav-link {
+          border-right: none
+        }
+      }
+    }
+  }
   .limit-width {
     width: 70px;
     display: inline-flex;
   }
+  #donate-cta {
   a[role="tab"] {
     background: $mc-orange;
     &:hover, &.active {
@@ -31,6 +63,7 @@
 
     }
   }
+}
   .carousel-control-next, .carousel-control-prev {
     @include breakpoint(phone) {
       top: -3rem;

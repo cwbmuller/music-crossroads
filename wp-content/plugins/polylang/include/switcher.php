@@ -15,9 +15,9 @@ class PLL_Switcher {
 	 *
 	 * @param string $type optional either 'menu' or 'widget', defaults to 'widget'
 	 * @param string $key  optional either 'string' or 'default', defaults to 'string'
-	 * @return array list of switcher options srings or default values
+	 * @return array list of switcher options strings or default values
 	 */
-	static public function get_switcher_options( $type = 'widget', $key = 'string' ) {
+	public static function get_switcher_options( $type = 'widget', $key = 'string' ) {
 		$options = array(
 			'dropdown'               => array( 'string' => __( 'Displays as dropdown', 'polylang' ), 'default' => 0 ),
 			'show_names'             => array( 'string' => __( 'Displays language names', 'polylang' ), 'default' => 1 ),
@@ -33,8 +33,7 @@ class PLL_Switcher {
 	/**
 	 * Get the language elements for use in a walker
 	 *
-	 * List of parameters accepted in $args:
-	 * @see PLL_Switcher::the_languages
+	 * @see list of parameters accepted in $args documented for PLL_Switcher::the_languages
 	 *
 	 * @since 1.2
 	 *
@@ -94,7 +93,7 @@ class PLL_Switcher {
 				continue;
 			}
 
-			$url = empty( $url ) || $args['force_home'] ? $links->get_home_url( $language ) : $url ; // If the page is not translated, link to the home page
+			$url = empty( $url ) || $args['force_home'] ? $links->get_home_url( $language ) : $url; // If the page is not translated, link to the home page
 
 			$name = $args['show_names'] || ! $args['show_flags'] || $args['raw'] ? ( 'slug' == $args['display_names_as'] ? $slug : $language->name ) : '';
 			$flag = $args['raw'] && ! $args['show_flags'] ? $language->flag_url : ( $args['show_flags'] ? $language->flag : '' );
@@ -182,7 +181,7 @@ class PLL_Switcher {
 		 *
 		 * @since 0.8
 		 *
-		 * @param string $html html returned/outputed by the template tag
+		 * @param string $html html returned/outputted by the template tag
 		 * @param array  $args arguments passed to the template tag
 		 */
 		$out = apply_filters( 'pll_the_languages', $walker->walk( $elements, $args ), $args );
@@ -195,8 +194,8 @@ class PLL_Switcher {
 			}
 
 			// Accept only few valid characters for the urls_x variable name ( as the widget id includes '-' which is invalid )
-			$out .= sprintf( '
-				<script type="text/javascript">
+			$out .= sprintf(
+				'<script type="text/javascript">
 					//<![CDATA[
 					var %1$s = %2$s;
 					document.getElementById( "%3$s" ).onchange = function() {
@@ -204,7 +203,9 @@ class PLL_Switcher {
 					}
 					//]]>
 				</script>',
-				'urls_' . preg_replace( '#[^a-zA-Z0-9]#', '', $args['dropdown'] ), json_encode( $urls ), esc_js( $args['name'] )
+				'urls_' . preg_replace( '#[^a-zA-Z0-9]#', '', $args['dropdown'] ),
+				json_encode( $urls ),
+				esc_js( $args['name'] )
 			);
 		}
 

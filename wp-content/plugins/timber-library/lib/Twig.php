@@ -68,15 +68,8 @@ class Twig {
 					return new $ImageClass($pid);
 				} ));
 
-		$twig->addFunction(new Twig_Function('TimberTerm', function( $pid, $TermClass = 'Timber\Term' ) {
-					if ( is_array($pid) && !Helper::is_array_assoc($pid) ) {
-						foreach ( $pid as &$p ) {
-							$p = new $TermClass($p);
-						}
-						return $pid;
-					}
-					return new $TermClass($pid);
-				} ));
+		$twig->addFunction(new Twig_Function('TimberTerm', array($this, 'handle_term_object')));
+
 		$twig->addFunction(new Twig_Function('TimberUser', function( $pid, $UserClass = 'Timber\User' ) {
 					if ( is_array($pid) && !Helper::is_array_assoc($pid) ) {
 						foreach ( $pid as &$p ) {
@@ -106,15 +99,7 @@ class Twig {
 					}
 					return new $ImageClass($pid);
 				} ));
-		$twig->addFunction(new Twig_Function('Term', function( $pid, $TermClass = 'Timber\Term' ) {
-					if ( is_array($pid) && !Helper::is_array_assoc($pid) ) {
-						foreach ( $pid as &$p ) {
-							$p = new $TermClass($p);
-						}
-						return $pid;
-					}
-					return new $TermClass($pid);
-				} ));
+		$twig->addFunction(new Twig_Function('Term', array($this, 'handle_term_object')));
 		$twig->addFunction(new Twig_Function('User', function( $pid, $UserClass = 'Timber\User' ) {
 					if ( is_array($pid) && !Helper::is_array_assoc($pid) ) {
 						foreach ( $pid as &$p ) {
@@ -126,41 +111,63 @@ class Twig {
 				} ));
 
 		/* bloginfo and translate */
-		$twig->addFunction(new Twig_Function('bloginfo', function( $show = '', $filter = 'raw' ) {
-					return get_bloginfo($show, $filter);
-				} ));
-		$twig->addFunction(new Twig_Function('__', function( $text, $domain = 'default' ) {
-					return __($text, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('translate', function( $text, $domain = 'default' ) {
-					return translate($text, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_e', function( $text, $domain = 'default' ) {
-					return _e($text, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_n', function( $single, $plural, $number, $domain = 'default' ) {
-					return _n($single, $plural, $number, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_x', function( $text, $context, $domain = 'default' ) {
-					return _x($text, $context, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_ex', function( $text, $context, $domain = 'default' ) {
-					return _ex($text, $context, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_nx', function( $single, $plural, $number, $context, $domain = 'default' ) {
-					return _nx($single, $plural, $number, $context, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_n_noop', function( $singular, $plural, $domain = 'default' ) {
-					return _n_noop($singular, $plural, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('_nx_noop', function( $singular, $plural, $context, $domain = 'default' ) {
-					return _nx_noop($singular, $plural, $context, $domain);
-				} ));
-		$twig->addFunction(new Twig_Function('translate_nooped_plural', function( $nooped_plural, $count, $domain = 'default' ) {
-					return translate_nooped_plural($nooped_plural, $count, $domain);
-				} ));
+		$twig->addFunction(new Twig_Function('bloginfo', 'bloginfo'));
+		$twig->addFunction(new Twig_Function('__', '__'));
+		$twig->addFunction(new Twig_Function('translate', 'translate'));
+		$twig->addFunction(new Twig_Function('_e', '_e'));
+		$twig->addFunction(new Twig_Function('_n', '_n'));
+		$twig->addFunction(new Twig_Function('_x', '_x'));
+		$twig->addFunction(new Twig_Function('_ex', '_ex'));
+		$twig->addFunction(new Twig_Function('_nx', '_nx'));
+		$twig->addFunction(new Twig_Function('_n_noop', '_n_noop'));
+		$twig->addFunction(new Twig_Function('_nx_noop', '_nx_noop'));
+		$twig->addFunction(new Twig_Function('translate_nooped_plural', 'translate_nooped_plural'));
 
 		return $twig;
+	}
+
+	/**
+	 * Function for Term or TimberTerm() within Twig
+	 * @since 1.5.1
+	 * @author @jarednova
+	 * @param integer $tid the term ID to search for
+	 * @param string $taxonomy the taxonomy to search inside of. If sent a class name, it will use that class to support backwards compatibility
+	 * @param string $TermClass the class to use for processing the term
+	 * @return Term|array
+	 */
+	function handle_term_object( $tid, $taxonomy = '', $TermClass = 'Timber\Term' ) {
+		if ( $taxonomy != $TermClass ) {
+			// user has sent any additonal parameters, process
+			$processed_args = self::process_term_args($taxonomy, $TermClass);
+			$taxonomy = $processed_args['taxonomy'];
+			$TermClass = $processed_args['TermClass'];
+		}
+		if ( is_array($tid) && !Helper::is_array_assoc($tid) ) {
+			foreach ( $tid as &$p ) {
+				$p = new $TermClass($p, $taxonomy);
+			}
+			return $tid;
+		}
+		return new $TermClass($tid, $taxonomy);
+	}
+
+	/**
+	 * Process the arguments for handle_term_object to determine what arguments the user is sending
+	 * @since 1.5.1
+	 * @author @jarednova
+	 * @param string $maybe_taxonomy probably a taxonomy, but it could be a Timber\Term subclass
+	 * @param string $TermClass a string for the Timber\Term subclass
+	 * @return array of processed arguments
+	 */
+	protected static function process_term_args( $maybe_taxonomy, $TermClass ) {
+		// A user could be sending a TermClass in the first arg, let's test for that ...
+		if ( class_exists($maybe_taxonomy) ) {
+			$tc = new $maybe_taxonomy;
+			if ( is_subclass_of($tc, 'Timber\Term') ) {
+				return array('taxonomy' => '', 'TermClass' => $maybe_taxonomy);
+			}
+		}
+		return array('taxonomy' => $maybe_taxonomy, 'TermClass' => $TermClass);
 	}
 
 	/**
@@ -175,6 +182,7 @@ class Twig {
 		$twig->addFilter(new \Twig_SimpleFilter('retina', array('Timber\ImageHelper', 'retina_resize')));
 		$twig->addFilter(new \Twig_SimpleFilter('letterbox', array('Timber\ImageHelper', 'letterbox')));
 		$twig->addFilter(new \Twig_SimpleFilter('tojpg', array('Timber\ImageHelper', 'img_to_jpg')));
+		$twig->addFilter(new \Twig_SimpleFilter('towebp', array('Timber\ImageHelper', 'img_to_webp')));
 
 		/* debugging filters */
 		$twig->addFilter(new \Twig_SimpleFilter('get_class', 'get_class'));
@@ -187,7 +195,7 @@ class Twig {
 		$twig->addFilter(new \Twig_SimpleFilter('stripshortcodes', 'strip_shortcodes'));
 		$twig->addFilter(new \Twig_SimpleFilter('array', array($this, 'to_array')));
 		$twig->addFilter(new \Twig_SimpleFilter('excerpt', 'wp_trim_words'));
-		$twig->addFilter(new \Twig_SimpleFilter('excerpt_chars', array('Timber\TextHelper','trim_characters')));
+		$twig->addFilter(new \Twig_SimpleFilter('excerpt_chars', array('Timber\TextHelper', 'trim_characters')));
 		$twig->addFilter(new \Twig_SimpleFilter('function', array($this, 'exec_function')));
 		$twig->addFilter(new \Twig_SimpleFilter('pretags', array($this, 'twig_pretags')));
 		$twig->addFilter(new \Twig_SimpleFilter('sanitize', 'sanitize_title'));
@@ -197,6 +205,7 @@ class Twig {
 		$twig->addFilter(new \Twig_SimpleFilter('list', array($this, 'add_list_separators')));
 
 		$twig->addFilter(new \Twig_SimpleFilter('pluck', array('Timber\Helper', 'pluck')));
+		$twig->addFilter(new \Twig_SimpleFilter('filter', array('Timber\Helper', 'filter_array')));
 
 		$twig->addFilter(new \Twig_SimpleFilter('relative', function( $link ) {
 					return URLHelper::get_rel_url($link, true);
@@ -216,7 +225,7 @@ class Twig {
 					return apply_filters_ref_array($tag, $args);
 				} ));
 
-		
+
 		$twig = apply_filters('timber/twig', $twig);
 		/**
 		 * get_twig is deprecated, use timber/twig
@@ -234,18 +243,18 @@ class Twig {
 	public function add_timber_escapers( $twig ) {
 
 		$twig->getExtension('Twig_Extension_Core')->setEscaper('esc_url', function( \Twig_Environment $env, $string ) {
-			return esc_url( $string );
+			return esc_url($string);
 		});
 		$twig->getExtension('Twig_Extension_Core')->setEscaper('wp_kses_post', function( \Twig_Environment $env, $string ) {
-			return wp_kses_post( $string );
+			return wp_kses_post($string);
 		});
 
 		$twig->getExtension('Twig_Extension_Core')->setEscaper('esc_html', function( \Twig_Environment $env, $string ) {
-			return esc_html( $string );
+			return esc_html($string);
 		});
 
 		$twig->getExtension('Twig_Extension_Core')->setEscaper('esc_js', function( \Twig_Environment $env, $string ) {
-			return esc_js( $string );
+			return esc_js($string);
 		});
 
 		return $twig;
@@ -349,14 +358,14 @@ class Twig {
 	 * @param string $second_delimiter
 	 * @return string
 	 */
-	public function add_list_separators( $arr, $first_delimiter = ',', $second_delimiter = 'and' ) {
+	public function add_list_separators( $arr, $first_delimiter = ',', $second_delimiter = ' and' ) {
 		$length = count($arr);
 		$list = '';
 		foreach ( $arr as $index => $item ) {
 			if ( $index < $length - 2 ) {
 				$delimiter = $first_delimiter.' ';
 			} elseif ( $index == $length - 2 ) {
-				$delimiter = ' '.$second_delimiter.' ';
+				$delimiter = $second_delimiter.' ';
 			} else {
 				$delimiter = '';
 			}

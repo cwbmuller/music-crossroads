@@ -1,0 +1,86 @@
+{# Choose base on which to extend this template #}
+{% extends "base.twig" %}
+
+{# Import macros for use in this template #}
+{% import "mixins.twig" as mixin %}
+
+{# Twig block to be included in Base.twig #}
+{% block content %}
+<div class="wrapper about-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+
+    <header class="window-height-semi" style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
+        <div  id="header" class="window-height-semi container" >
+
+            <div class="row">
+
+                <div class="col-12  py-5" >
+                    <h1 class="text-white text-uppercase">{{post.title}}</h1>
+
+                </div>
+                <div class="col-12  pb-5" >
+                    <div class="text-white ">{{ post.content }}</div>
+                </div>
+  
+
+
+
+            </div><!-- .row -->
+        </div><!-- #header -->
+    </header>
+    <div  id="contact-content" class="container">
+
+        <div class="row   ">
+
+            <div id="primary" class="col-12 py-5 content-area">
+                <div class="row">
+                 {% for item in post.get_field('contact_group')%}
+                    <div class="col-md-6  mb-4 text-white "  >
+                    <div class = "h-100 p-4 bg-green inner">
+                        <div class="row ">
+                            <div class="col-12 ">
+                            <h2>{{ item.name }}</h3>
+                            </div>
+                            
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-2 text-center">
+                            {{ source('media/pointer.svg') }}
+                            </div>
+                            <div class="col-10">
+                            <p>{{ item.address }}</p>
+                            </div>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-2 text-center">
+                                {{ source('media/cellphone.svg') }}
+                            </div>
+                            <div class="col-10">
+                                <a class="text-white " href="tel:{{ item.phone }}">{{ item.phone }}</a>
+                            </div>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-2 text-center">
+                                {{ source('media/envelope.svg') }}
+                            </div>
+                            <div class="col-10">
+                                <a class="text-white " href="mailto:{{ item.email }}">{{ item.email }}</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+               
+
+            </div><!-- #primary -->
+
+
+        </div><!-- #row -->
+
+    </div><!-- #content -->
+   
+</div><!-- #wrapper -->
+   
+{% endblock %}

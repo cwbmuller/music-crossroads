@@ -1,8 +1,8 @@
 {% import "mixins.twig" as mixin %}
 
 {% block content %}
-    {% if post.get_field('_artist_videos')  %}
-        {% for video in post.get_field('_artist_videos') %}
+    {% if artist.get_field('_artist_videos')  %}
+        {% for video in artist.get_field('_artist_videos') %}
             <div class="col-md-6 mb-4 ">
                 <div class="video-box">
                     {{ video.video_url }}

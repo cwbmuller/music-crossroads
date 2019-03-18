@@ -46,7 +46,7 @@ class PLL_Admin_Model extends PLL_Model {
 		// Don't want shared terms so use a different slug
 		wp_insert_term( $args['name'], 'term_language', array( 'slug' => 'pll_' . $args['slug'] ) );
 
-		$this->clean_languages_cache(); // Udpate the languages list now !
+		$this->clean_languages_cache(); // Update the languages list now !
 
 		if ( ! isset( $this->options['default_lang'] ) ) {
 			// If this is the first language created, set it as default language
@@ -136,7 +136,7 @@ class PLL_Admin_Model extends PLL_Model {
 		// Delete users options
 		foreach ( get_users( array( 'fields' => 'ID' ) ) as $user_id ) {
 			delete_user_meta( $user_id, 'pll_filter_content', $lang->slug );
-			delete_user_meta( $user_id, 'description_'.$lang->slug );
+			delete_user_meta( $user_id, 'description_' . $lang->slug );
 		}
 
 		// Delete the string translations
@@ -256,6 +256,7 @@ class PLL_Admin_Model extends PLL_Model {
 
 	/**
 	 * Validates data entered when creating or updating a language
+	 *
 	 * @see PLL_Admin_Model::add_language
 	 *
 	 * @since 0.4
@@ -276,14 +277,16 @@ class PLL_Admin_Model extends PLL_Model {
 		}
 
 		// Validate slug is unique
-		if ( $this->get_language( $args['slug'] ) && ( null === $lang || ( isset( $lang ) && $lang->slug != $args['slug'] ) ) ) {
-			add_settings_error( 'general', 'pll_non_unique_slug', __( 'The language code must be unique', 'polylang' ) );
+		foreach ( $this->get_languages_list() as $language ) {
+			if ( $language->slug === $args['slug'] && ( null === $lang || ( isset( $lang ) && $lang->term_id != $language->term_id ) ) ) {
+				add_settings_error( 'general', 'pll_non_unique_slug', __( 'The language code must be unique', 'polylang' ) );
+			}
 		}
 
 		// Validate name
 		// No need to sanitize it as wp_insert_term will do it for us
 		if ( empty( $args['name'] ) ) {
-			add_settings_error( 'general', 'pll_invalid_name',  __( 'The language must have a name', 'polylang' ) );
+			add_settings_error( 'general', 'pll_invalid_name', __( 'The language must have a name', 'polylang' ) );
 		}
 
 		// Validate flag
@@ -315,8 +318,8 @@ class PLL_Admin_Model extends PLL_Model {
 		}
 
 		if ( ! empty( $values ) ) {
-			$values = array_unique( $values );
-			$wpdb->query( "INSERT INTO $wpdb->term_relationships ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $values ) );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "INSERT INTO {$wpdb->term_relationships} ( object_id, term_taxonomy_id ) VALUES " . implode( ',', array_unique( $values ) ) );
 			$lang->update_count(); // Updating term count is mandatory ( thanks to AndyDeGroo )
 		}
 
@@ -350,31 +353,32 @@ class PLL_Admin_Model extends PLL_Model {
 
 		foreach ( $translations as $t ) {
 			$term = uniqid( 'pll_' ); // the term name
-			$terms[] = $wpdb->prepare( '( "%1$s", "%1$s" )', $term );
-			$slugs[] = $wpdb->prepare( '"%s"', $term );
+			$terms[] = $wpdb->prepare( '( %s, %s )', $term, $term );
+			$slugs[] = $wpdb->prepare( '%s', $term );
 			$description[ $term ] = serialize( $t );
 			$count[ $term ] = count( $t );
 		}
 
 		// Insert terms
 		if ( ! empty( $terms ) ) {
-			$terms = array_unique( $terms );
-			$wpdb->query( "INSERT INTO $wpdb->terms ( slug, name ) VALUES " . implode( ',', $terms ) );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "INSERT INTO {$wpdb->terms} ( slug, name ) VALUES " . implode( ',', array_unique( $terms ) ) );
 		}
 
 		// Get all terms with their term_id
-		$terms = $wpdb->get_results( "SELECT term_id, slug FROM $wpdb->terms WHERE slug IN ( " . implode( ',', $slugs ) . " )" );
+		// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$terms = $wpdb->get_results( "SELECT term_id, slug FROM {$wpdb->terms} WHERE slug IN ( " . implode( ',', $slugs ) . ' )' );
 
 		// Prepare terms taxonomy relationship
 		foreach ( $terms as $term ) {
 			$term_ids[] = $term->term_id;
-			$tts[] = $wpdb->prepare( '( %d, "%s", "%s", %d )', $term->term_id, $taxonomy, $description[ $term->slug ], $count[ $term->slug ] );
+			$tts[] = $wpdb->prepare( '( %d, %s, %s, %d )', $term->term_id, $taxonomy, $description[ $term->slug ], $count[ $term->slug ] );
 		}
 
 		// Insert term_taxonomy
 		if ( ! empty( $tts ) ) {
-			$tts = array_unique( $tts );
-			$wpdb->query( "INSERT INTO $wpdb->term_taxonomy ( term_id, taxonomy, description, count ) VALUES " . implode( ',', $tts ) );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "INSERT INTO {$wpdb->term_taxonomy} ( term_id, taxonomy, description, count ) VALUES " . implode( ',', array_unique( $tts ) ) );
 		}
 
 		// Get all terms with term_taxonomy_id
@@ -394,7 +398,8 @@ class PLL_Admin_Model extends PLL_Model {
 
 		// Insert term_relationships
 		if ( ! empty( $trs ) ) {
-			$wpdb->query( "INSERT INTO $wpdb->term_relationships ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $trs ) );
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "INSERT INTO {$wpdb->term_relationships} ( object_id, term_taxonomy_id ) VALUES " . implode( ',', $trs ) );
 			$trs = array_unique( $trs );
 		}
 
@@ -402,31 +407,60 @@ class PLL_Admin_Model extends PLL_Model {
 	}
 
 	/**
-	 * Returns unstranslated posts and terms ids ( used in settings )
+	 * Returns untranslated posts and terms ids ( used in settings )
 	 *
 	 * @since 0.9
+	 * @since 2.2.6 Add the $limit argument
 	 *
-	 * @return array array made of an array of post ids and an array of term ids
+	 * @param in $limit Max number of posts or terms to return. Defaults to -1 (no limit).
+	 * @return array Array made of an array of post ids and an array of term ids
 	 */
-	public function get_objects_with_no_lang() {
-		$posts = get_posts( array(
-			'numberposts' => -1,
-			'nopaging'    => true,
-			'post_type'   => $this->get_translated_post_types(),
-			'post_status' => 'any',
-			'fields'      => 'ids',
-			'tax_query'   => array( array(
-				'taxonomy' => 'language',
-				'terms'    => $this->get_languages_list( array( 'fields' => 'term_id' ) ),
-				'operator' => 'NOT IN',
-			) )
-		) );
+	public function get_objects_with_no_lang( $limit = -1 ) {
+		global $wpdb;
 
-		$terms = get_terms( $this->get_translated_taxonomies(), array( 'get' => 'all', 'fields' => 'ids' ) );
-		$groups = $this->get_languages_list( array( 'fields' => 'tl_term_id' ) );
-		$tr_terms = get_objects_in_term( $groups, 'term_language' );
-		$terms = array_unique( array_diff( $terms, $tr_terms ) ); // array_unique to avoid duplicates if a term is in more than one taxonomy
-		$terms = array_map( 'intval', $terms );
+		/**
+		 * Filters the max number of posts or terms to return when searching objects with no language
+		 * This filter can be used to decrease the memory usage in case the number of objects
+		 * without language is too big. Using a negative value is equivalent to have no limit.
+		 *
+		 * @since 2.2.6
+		 *
+		 * @param int $limit Max number of posts or terms to retrieve from the database
+		 */
+		$limit = (int) apply_filters( 'get_objects_with_no_lang_limit', $limit );
+
+		$posts = get_posts(
+			array(
+				'numberposts' => $limit,
+				'nopaging'    => $limit <= 0,
+				'post_type'   => $this->get_translated_post_types(),
+				'post_status' => 'any',
+				'fields'      => 'ids',
+				'tax_query'   => array(
+					array(
+						'taxonomy' => 'language',
+						'terms'    => $this->get_languages_list( array( 'fields' => 'term_id' ) ),
+						'operator' => 'NOT IN',
+					),
+				),
+			)
+		);
+
+		// PHPCS:disable WordPress.DB.PreparedSQL.NotPrepared
+		$terms = $wpdb->get_col(
+			sprintf(
+				"SELECT {$wpdb->term_taxonomy}.term_id FROM {$wpdb->term_taxonomy}
+				WHERE taxonomy IN ('%s')
+				AND {$wpdb->term_taxonomy}.term_id NOT IN (
+					SELECT object_id FROM {$wpdb->term_relationships} WHERE term_taxonomy_id IN (%s)
+				)
+				%s",
+				implode( "','", array_map( 'esc_sql', $this->get_translated_taxonomies() ) ),
+				implode( ',', array_map( 'intval', $this->get_languages_list( array( 'fields' => 'tl_term_taxonomy_id' ) ) ) ),
+				$limit > 0 ? "LIMIT {$limit}" : ''
+			)
+		);
+		// PHPCS:enable
 
 		/**
 		 * Filter the list of untranslated posts ids and terms ids
@@ -444,7 +478,7 @@ class PLL_Admin_Model extends PLL_Model {
 	 * @since 0.5
 	 *
 	 * @param string $old_slug the old language slug
-	 * @param string $new_slug optional, the new language slug, if not set it means the correspondant has been deleted
+	 * @param string $new_slug optional, the new language slug, if not set it means the correspondent has been deleted
 	 */
 	public function update_translations( $old_slug, $new_slug = '' ) {
 		global $wpdb;
@@ -475,26 +509,30 @@ class PLL_Admin_Model extends PLL_Model {
 
 		// Delete relationships
 		if ( ! empty( $dr ) ) {
-			$wpdb->query( "
-				DELETE FROM $wpdb->term_relationships
-				WHERE object_id IN ( " . implode( ',', $dr['id'] ) . " )
-				AND term_taxonomy_id IN ( " . implode( ',', $dr['tt'] ) . " )
-			" );
+			// PHPCS:disable WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query(
+				"DELETE FROM $wpdb->term_relationships
+				WHERE object_id IN ( " . implode( ',', $dr['id'] ) . ' )
+				AND term_taxonomy_id IN ( ' . implode( ',', $dr['tt'] ) . ' )'
+			);
+			// PHPCS:enable
 		}
 
 		// Delete terms
 		if ( ! empty( $dt ) ) {
-			$wpdb->query( "DELETE FROM $wpdb->terms WHERE term_id IN ( " . implode( ',', $dt['t'] ) . " ) " );
-			$wpdb->query( "DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id IN ( " . implode( ',', $dt['tt'] ) . " ) " );
+			$wpdb->query( "DELETE FROM $wpdb->terms WHERE term_id IN ( " . implode( ',', $dt['t'] ) . ' )' ); // PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query( "DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id IN ( " . implode( ',', $dt['tt'] ) . ' )' ); // PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 		// Update terms
 		if ( ! empty( $ut ) ) {
-			$wpdb->query( "
-				UPDATE $wpdb->term_taxonomy
-				SET description = ( CASE term_id " . implode( ' ', $ut['case'] ) . " END )
-				WHERE term_id IN ( " . implode( ',', $ut['in'] ) . " )
-			" );
+			// PHPCS:disable WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->query(
+				"UPDATE $wpdb->term_taxonomy
+				SET description = ( CASE term_id " . implode( ' ', $ut['case'] ) . ' END )
+				WHERE term_id IN ( ' . implode( ',', $ut['in'] ) . ' )'
+			);
+			// PHPCS:enable
 		}
 
 		if ( ! empty( $term_ids ) ) {

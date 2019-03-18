@@ -7,7 +7,7 @@
 
         <div class="row ">
 
-            <div class=" d-flex justify-content-center align-items-center col-md-6 py-4 text-center content-area" style="{{ mixin.bgImg(post.thumbnail.src,0)}}">
+            <div class=" d-flex justify-content-center align-items-center col-md-6 py-4 text-center content-area" style="{{ mixin.bgImg(post.get_field('_impact_band_image'),0)}}">
                 <h2 class="d-inline-block text-vertical text-orange text-uppercase">{{ options.impact_title }}</h2>
                 <div class="tab-content ">
                     {% for item in options.impact_numbers %}

@@ -1,10 +1,10 @@
 === SendGrid ===
-Contributors: team-rs
+Contributors: SendGrid
 Donate link: http://sendgrid.com/
 Tags: email, email reliability, email templates, sendgrid, smtp, transactional email, wp_mail,email infrastructure, email marketing, marketing email, deliverability, email deliverability, email delivery, email server, mail server, email integration, cloud email
 Requires at least: 4.6
-Tested up to: 4.7
-Stable tag: 1.11.3
+Tested up to: 4.9
+Stable tag: 1.11.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,13 +20,21 @@ SendGrid’s WordPress plugin replaces WordPress’s default wp_mail() function 
 
 By using the SendGrid plugin, you will be able to take advantage of improved deliverability and an expanded feature set, including tracking and analytics, to enhance user engagement on your WordPress installation. SendGrid also provides world class customer support, should you run into any issues.
 
-For more details, consult our official documentation here : https://sendgrid.com/docs/Integrate/Tutorials/WordPress/index.html
+For more details, [consult our official documentation](https://sendgrid.com/docs/Integrate/Tutorials/WordPress/index.html).
+
+For assistance you can contact SendGrid Support from the [SendGrid Support Portal](https://support.sendgrid.com/). Click **Login & Contact Support**, and then **Contact Support** to see your support contact options. Paying SendGrid customers have the option to contact support via phone, chat, or by submitting a ticket using our web form. All SendGrid customers have the option to submit a ticket using our web form.
+
+= Agency Program =
+
+Are you sending emails on behalf of your clients? SendGrid's Agency Program offers exclusive pricing and support for agencies looking to improve their email program.
+
+Want to learn more? Visit the [SendGrid Agency Page](https://sendgrid.com/partners/agencies/)
 
 = The Subscription Widget =
 
 SendGrid’s WordPress Subscription Widget makes it easy for people visiting your WordPress site to subscribe to your marketing emails, such as any newsletters, announcements, or promotional offers you may send. Upon signup, they’ll automatically receive an opt-in email allowing them to confirm their desire to begin receiving your emails. This confirmation constitutes “double opt-in,” a deliverability best practice.
 
-For more details, consult the official documentation for the Subscription Widget here : https://sendgrid.com/docs/Integrate/Tutorials/WordPress/subscription_widget.html
+For more details, consult the official documentation for the [Subscription Widget](https://sendgrid.com/docs/Integrate/Tutorials/WordPress/subscription_widget.html)
 
 = Multisite =
 
@@ -100,6 +108,9 @@ SendGrid settings can optionally be defined as global variables (wp-config.php):
     * Signup confirmation email content: define('SENDGRID_MC_SIGNUP_EMAIL_CONTENT', '&lt;a href="%confirmation_link%"&gt;click here&lt;/a&gt;');
     * Signup confirmation page ID: define('SENDGRID_MC_SIGNUP_CONFIRMATION_PAGE', 'page_id');
 
+4. Other configuration options:
+    * Set a custom timeout for API requests to SendGrid in seconds: define('SENDGRID_REQUEST_TIMEOUT', 10);
+
 = Filters =
 
 Use HTML content type for a single email:
@@ -144,9 +155,13 @@ Note that all HTML emails sent through our plugin also contain the HTML body in 
 
 == Frequently asked questions ==
 
+= Does SendGrid have an Agency program?
+
+Yes. If you are sending email on behalf of clients, you can find more information on [SendGrid's Agency Page](https://www.sendgrid.com/partners/agencies/)
+
 = Is there any official documentation for this plugin ? =
 
-Yes. You can find it here : https://sendgrid.com/docs/Integrate/Tutorials/WordPress/index.html
+Yes. [You can find it here](https://sendgrid.com/docs/Integrate/Tutorials/WordPress/index.html)
 
 = What PHP versions are supported ? =
 
@@ -232,6 +247,14 @@ Yes. Our plugin required special integration with BuddyPress and it's regularly 
 
 `define('SENDGRID_DISABLE_BUDDYPRESS', '1');`
 
+If you're trying to send plaintext emails using BuddyPress, keep in mind that by default the whitespace content of those emails is normalized.
+
+That means that some newlines might be missing if you expect them to be there.
+
+To disable this functionality, you need to add the following line in your wp-config.php file:
+
+`define('SENDGRID_DISABLE_BP_NORMALIZE_WHITESPACE', '1');`
+
 = Can I use shortcodes to customize the subscription confirmation page ? =
 
 Yes. You need to create custom page and select it from the settings page. You can place any of these shortcodes in the body of that page. Here's an example :
@@ -250,6 +273,32 @@ The settings for all sites in the network can be configured only by the Network 
 
 Since 1.10.5 the Network Admin can delegate the configuration for each subsite to their respective owners. This will allow any subsite to use it's own SendGrid Plugin configuration.
 
+= How can I further customize my emails? =
+
+When calling the wp_mail() function you can send a SendGrid PHP email object in the headers argument.
+
+Here is an example:
+
+`$email = new SendGrid\Email();
+$email
+    ->setFrom('me@bar.com')
+    ->setHtml('<strong>Hello World!</strong>')
+    ->addCategory('customCategory')
+;
+
+wp_mail('foo@bar.com', 'Subject goes here', 'Message goes here', $email);
+`
+
+You can find more examples here: https://github.com/sendgrid/sendgrid-php/blob/v4.0.2/README.md
+
+= My server is slow. Can I increase the timeout for API requests? =
+
+Yes. You can define a constant in your wp-config.php file like this:
+
+`define('SENDGRID_REQUEST_TIMEOUT', 10);`
+
+The value is in seconds, this means that API requests will wait 10 seconds for a reponse from the SendGrid API server until timing out.
+
 == Screenshots ==
 
 1. Go to Admin Panel, section Plugins and activate the SendGrid plugin. If you want to send emails through SMTP you need to install also the 'Swift Mailer' plugin.
@@ -266,6 +315,20 @@ Since 1.10.5 the Network Admin can delegate the configuration for each subsite t
 
 == Changelog ==
 
+= 1.11.8 =
+* Updated the plugin description to direct users to support.sendgrid.com for questions.
+* Updated the "tested up to" field to confirm the latest version of the plugin wordes with the latest version of wordpress.
+= 1.11.7 =
+* Added a configuration parameter of API request timeout in seconds
+* Fixed an issue that made the HTML subscription emails break links
+= 1.11.6 =
+* Added a feature flag to disable whitespace normalization in BuddyPress plaintext emails
+* Fixed an issue where the from name and email subjects would incorrectly display the ampersand symbol
+= 1.11.5 =
+* Fixed a potential stored XSS issue on the backend settings form
+* Fixed a potential CSRF issue on the backend settings form
+= 1.11.4 =
+* Fixed an issue where TO field recipients could not see each other in the email header
 = 1.11.3 =
 * Fixed an issue where the send test form was displayed when no API key was set
 * Fixed an issue where the subscription test form was not displayed for the default contact list
@@ -438,6 +501,20 @@ Since 1.10.5 the Network Admin can delegate the configuration for each subsite t
 
 == Upgrade notice ==
 
+= 1.11.8 =
+* Updated the plugin description to direct users to support.sendgrid.com for questions.
+* Updated the "tested up to" field to confirm the latest version of the plugin wordes with the latest version of wordpress.
+= 1.11.7 =
+* Added a configuration parameter of API request timeout in seconds
+* Fixed an issue that made the HTML subscription emails break links
+= 1.11.6 =
+* Added a feature flag to disable whitespace normalization in BuddyPress plaintext emails
+* Fixed an issue where the from name and email subjects would incorrectly display the ampersand symbol
+= 1.11.5 =
+* Fixed a potential stored XSS issue on the backend settings form
+* Fixed a potential CSRF issue on the backend settings form
+= 1.11.4 =
+* Fixed an issue where TO field recipients could not see each other in the email header
 = 1.11.3 =
 * Fixed an issue where the send test form was displayed when no API key was set
 * Fixed an issue where the subscription test form was not displayed for the default contact list

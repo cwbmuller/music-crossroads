@@ -4,6 +4,7 @@ namespace Timber;
 
 use Timber\Image;
 use Timber\Image\Operation\ToJpg;
+use Timber\Image\Operation\ToWebp;
 use Timber\Image\Operation\Resize;
 use Timber\Image\Operation\Retina;
 use Timber\Image\Operation\Letterbox;
@@ -28,9 +29,13 @@ class ImageHelper {
 	const BASE_UPLOADS = 1;
 	const BASE_CONTENT = 2;
 
+	static $home_url;
+
 	public static function init() {
-		self::add_actions();
-		self::add_filters();
+		self::$home_url = get_home_url();
+		add_action('delete_attachment', array(__CLASS__, 'delete_attachment'));
+		add_filter('wp_generate_attachment_metadata', array(__CLASS__, 'generate_attachment_metadata'), 10, 2);
+		add_filter('upload_dir', array(__CLASS__, 'add_relative_upload_dir_key'), 10, 2);
 		return true;
 	}
 
@@ -138,6 +143,39 @@ class ImageHelper {
 	}
 
 	/**
+	 * Checks if file is an SVG.
+	 *
+	 * @param string $file_path File path to check.
+	 * @return bool True if SVG, false if not SVG or file doesn't exist.
+	 */
+	public static function is_svg( $file_path ) {
+		if ( ! isset( $file_path ) || '' === $file_path || ! file_exists( $file_path ) ) {
+			return false;
+		}
+
+		if ( TextHelper::ends_with( strtolower($file_path), '.svg' ) ) {
+			return true;
+		}
+
+		/**
+		 * Try reading mime type.
+		 *
+		 * SVG images are not allowed by default in WordPress, so we have to pass a default mime
+		 * type for SVG images.
+		 */
+		$mime = wp_check_filetype_and_ext( $file_path, basename( $file_path ), array(
+			'svg' => 'image/svg+xml',
+		) );
+
+		return in_array( $mime['type'], array(
+			'image/svg+xml',
+			'text/html',
+			'text/plain',
+			'image/svg',
+		) );
+	}
+
+	/**
 	 * Generate a new image with the specified dimensions.
 	 * New dimensions are achieved by adding colored bands to maintain ratio.
 	 *
@@ -148,7 +186,7 @@ class ImageHelper {
 	 * @param bool    $force
 	 * @return string
 	 */
-	public static function letterbox( $src, $w, $h, $color = '#000000', $force = false ) {
+	public static function letterbox( $src, $w, $h, $color = false, $force = false ) {
 		$op = new Letterbox($w, $h, $color);
 		return self::_operate($src, $op, $force);
 	}
@@ -165,34 +203,58 @@ class ImageHelper {
 		return self::_operate($src, $op, $force);
 	}
 
-	/**
-	 * Deletes all resized versions of an image when the source is deleted
-	 * or its meta data is regenerated
-	 */
-	protected static function add_actions() {
-		add_action('delete_attachment', function( $post_id ) {
-			\Timber\ImageHelper::_delete_generated_if_image($post_id);
-		} );
-		add_filter('wp_generate_attachment_metadata', function( $metadata, $post_id ) {
-			\Timber\ImageHelper::_delete_generated_if_image($post_id);
-			return $metadata;
-		}, 10, 2);
-	}
-
-	/**
-	 * adds a 'relative' key to wp_upload_dir() result.
-	 * It will contain the relative url to upload dir.
-	 * @return void
-	 */
-	static function add_filters() {
-		add_filter('upload_dir', function( $arr ) {
-			$arr['relative'] = str_replace(get_home_url(), '', $arr['baseurl']);
-			return $arr;
-		} );
-	}
+    /**
+     * Generates a new image by converting the source into WEBP if supported by the server
+     *
+     * @param string  $src      a url or path to the image (http://example.org/wp-content/uploads/2014/image.webp)
+     *							or (/wp-content/uploads/2014/image.jpg)
+     *							If webp is not supported, a jpeg image will be generated
+	 * @param int     $quality  ranges from 0 (worst quality, smaller file) to 100 (best quality, biggest file)
+     * @param bool    $force
+     */
+    public static function img_to_webp( $src, $quality = 80, $force = false ) {
+        $op = new Image\Operation\ToWebp($quality);
+        return self::_operate($src, $op, $force);
+    }
 
 	//-- end of public methods --//
 
+	/**
+	 * Deletes all resized versions of an image when the source is deleted.
+	 *
+	 * @since 1.5.0
+	 * @param int   $post_id an attachment post id
+	 */
+	public static function delete_attachment( $post_id ) {
+		self::_delete_generated_if_image($post_id);
+	}
+
+
+	/**
+	 * Delete all resized version of an image when its meta data is regenerated.
+	 *
+	 * @since 1.5.0
+	 * @param array $metadata
+	 * @param int   $post_id an attachment post id
+	 * @return array
+	 */
+	public static function generate_attachment_metadata( $metadata, $post_id ) {
+		self::_delete_generated_if_image($post_id);
+		return $metadata;
+	}
+
+	/**
+	 * Adds a 'relative' key to wp_upload_dir() result.
+	 * It will contain the relative url to upload dir.
+	 *
+	 * @since 1.5.0
+	 * @param array $arr
+	 * @return array
+	 */
+	public static function add_relative_upload_dir_key( $arr ) {
+		$arr['relative'] = str_replace(self::$home_url, '', $arr['baseurl']);
+		return $arr;
+	}
 
 	/**
 	 * Checks if attachment is an image before deleting generated files
@@ -245,7 +307,11 @@ class ImageHelper {
 	 */
 	protected static function process_delete_generated_files( $filename, $ext, $dir, $search_pattern, $match_pattern = null ) {
 		$searcher = '/'.$filename.$search_pattern;
-		foreach ( glob($dir.$searcher) as $found_file ) {
+		$files = glob($dir.$searcher);
+		if ( $files === false || empty($files) ) {
+			return;
+		}
+		foreach ( $files as $found_file ) {
 			$pattern = '/'.preg_quote($dir, '/').'\/'.preg_quote($filename, '/').$match_pattern.preg_quote($ext, '/').'/';
 			$match = preg_match($pattern, $found_file);
 			if ( !$match_pattern || $match ) {
@@ -261,7 +327,7 @@ class ImageHelper {
 	 * @return string
 	 */
 	public static function get_server_location( $url ) {
-		// if we're already an absolute dir, just return
+		// if we're already an absolute dir, just return.
 		if ( 0 === strpos($url, ABSPATH) ) {
 			return $url;
 		}
@@ -390,10 +456,24 @@ class ImageHelper {
 		return $tmp;
 	}
 
+	/**
+	 * Checks if uploaded image is located in theme.
+	 *
+	 * @param string $path image path.
+	 * @return bool     If the image is located in the theme directory it returns true.
+	 *                  If not or $path doesn't exits it returns false.
+	 */
 	protected static function is_in_theme_dir( $path ) {
-		$root = realpath(get_stylesheet_directory_uri());
-		if ( 0 === strpos($path, $root) ) {
+		$root = realpath(get_stylesheet_directory());
+
+		if ( false === $root ) {
+			return false;
+		}
+
+		if ( 0 === strpos($path, (string) $root) ) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 

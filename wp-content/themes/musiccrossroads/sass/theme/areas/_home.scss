@@ -44,11 +44,14 @@
 
   }
   #about-content {
-    margin-top: $navbar-height;
+    // margin-top: $navbar-height;
     @include breakpoint(phone) {
       margin-top: 0;
       background: $mc-green!important;
     }
+  }
+  #locations-content h2 {
+    margin: 3rem 0 4rem;
   }
   .location-map {
     margin-top: -2rem;

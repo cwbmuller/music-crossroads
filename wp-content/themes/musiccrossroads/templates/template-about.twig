@@ -36,7 +36,7 @@
             <div id="primary" class="col-12 py-5 content-area">
                 <h1 class="text-uppercase mb-4">{{ pll__('Our Missions and values') }}</h1>
                 <!-- Nav tabs -->
-                <ul class="nav bg-m-grey py-3" role="tablist">
+                <ul class="nav bg-brown py-3" role="tablist">
                     {% for item in post.get_field('missions_and_values') %}
                     <li class="nav-item">
                         <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
@@ -70,22 +70,29 @@
             {%  set cat = '' %}
             {%  set count = 1 %}
             {% for member in team %}
-                {% if member.country.slug != cat %}
-                <div class="square-me col-md-3 my-3 text-center text-white {% if count == 1 or count > 3 %}bg-orange{% endif %} {% if count == 2 %}bg-green{% endif %} {% if count == 3 %}bg-brown{% endif %}">
-                    <div class="inner">
-                        <h4 class="font-eveleth center-me">{{  member.country.name }}</h4>
+                {% if member.display_on_about_us %}
+                    {% if member.country.slug != cat %}
+                    <div class="square-me col-md-3 my-3 text-center text-white {% if count == 1 or count > 3 %}bg-orange{% endif %} {% if count == 2 %}bg-green{% endif %} {% if count == 3 %}bg-brown{% endif %}">
+                        <div class="row h-100 align-items-center justify-content-center">
+                            <div>
+                                {% if member.country.team_link %}
+                                <a class="text-white text-underline" href={{member.country.team_link}}><h4 class="font-eveleth ">{{  member.country.name }}</h4>(View team)</a>
+                                {% else %}
+                                <h4 class="font-eveleth ">{{  member.country.name }}</h4>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {%  set count = count + 1 %}
+                    {%  set count = count + 1 %}
+                    {% endif %}
+                    {%  set cat = member.country.slug %}
+
+                    <div data-content="{{ member.content }}" data-name="{{ member.post_title }}" data-image="{{ fn('wp_get_attachment_image_url',member._thumbnail_id,'full') }}" data-tag="{{ member.post_title }}" data-cat="{{ cat|capitalize }}" class="square-me team-square col-md-3 my-3 text-center " style="{{ mixin.bgImg(fn('wp_get_attachment_image_url',member._thumbnail_id,'medium')) }}">
+                        <div class="inner">
+                            <h4 class="font-eveleth team-name center-me">{{  member.post_title }}</h4>
+                        </div>
+                    </div>
                 {% endif %}
-                {%  set cat = member.country.slug %}
-
-                <div data-content="{{ member.content }}" data-name="{{ member.post_title }}" data-image="{{ fn('wp_get_attachment_image_url',member._thumbnail_id,'full') }}" data-tag="{{ member.post_title }}" data-cat="{{ cat|capitalize }}" class="square-me team-square col-md-3 my-3 text-center " style="{{ mixin.bgImg(fn('wp_get_attachment_image_url',member._thumbnail_id,'medium')) }}">
-                    <div class="inner">
-                        <h4 class="font-eveleth team-name center-me">{{  member.post_title }}</h4>
-                    </div>
-                </div>
-
             {% endfor %}
         </div>
 
@@ -95,7 +102,7 @@
 
         <div class="row justify-content-center">
             <div class="col-12 text-center mb-4">
-                <h2>{{ pll__('Our Partners') }}</h2>
+                <h2>{{post.get_field('_partners_title')}} </h2>
             </div>
 
 

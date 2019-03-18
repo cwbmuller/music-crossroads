@@ -10,11 +10,11 @@
 
     <header>
         <div  id="header" class="container-fluid">
-
             <div class="row">
 
-                <div class="col-md-12 window-height p-5" style="{{ mixin.bgImg(post.thumbnail.src,0)}}">
-                    <h1 class="text-white text-uppercase" style="line-height: 1.5">{{ post._header_title }}</h1>
+                <div class="col-md-12 window-height " style="">
+                    {# <h1 class="text-white text-uppercase" style="line-height: 1.5">{{ post._header_title }}</h1> #}
+                    {{fn('do_shortcode',post.get_field('_home_page_slider'))}}
 
                     <div class="header-nav-down hidden-sm-down">
                         <a href="#_about" class="text-white"><i class="fa fa-arrow-circle-o-left  mr-3"></i>{{ pll__('About us') }} {{ source('media/rectangle-h.svg') }}</a>
@@ -40,7 +40,7 @@
                     <div class="col-12 p-5  ">
                         <h2>{{ post._about_band_title }}</h2>
                         <div class="py-5 pr-5">{{ post.get_field('_about_band_content') }}</div>
-                        <a class="cta-btn text-white text-uppercase">{{ pll__('About us') }}</a>
+                        <a class="cta-btn text-white text-uppercase" href="/about-us">{{ pll__('About us') }}</a>
                     </div>
                 </div>
 
@@ -53,6 +53,7 @@
     </div><!-- #content -->
     <div  id="locations-content" class="container">
         <a name="_countries"></a>
+        <h2>{{ post._academies_band_title }}</h2>
 
         <div class="row window-height align-items-center">
 
@@ -139,6 +140,9 @@
             </div>
         </div>
 
+    </div>
+    <div>
+        {{fn('do_shortcode',post.get_field('_flow_flow_shortcode') )}}
     </div>
 
 

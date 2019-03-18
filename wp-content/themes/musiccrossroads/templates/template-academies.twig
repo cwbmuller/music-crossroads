@@ -26,7 +26,7 @@
                     </div>
                     {% for academy in academies %}
                         <div id="{{ academy.slug }}-copy" class="my-4 country-block" >
-                            <h2 class="text-green text-uppercase">{{ academy.title }}</h2>
+                            <h2 class="text-white text-uppercase">{{ academy.title }}</h2>
                             <div class="text-white ">{{ academy.get_field('header_excerpt') }}</div>
                         </div>
                     {% endfor %}
@@ -39,9 +39,33 @@
         </div><!-- #header -->
     </header>
 
-    <section  id="activites-content" class="container my-5">
+    <section  id="academies-content" class="container my-5">
+
+        <div class="row">
+            <div id="primary" class="col-12 py-5 content-area">
+                <h1 class="text-uppercase mb-4">{{ post.get_field('more_info_block_title') }}</h1>
+                <!-- Nav tabs -->
+                <ul class="nav bg-green py-3" role="tablist">
+                    {% for item in post.get_field('more_info_block') %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if loop.index == 1 %}active{% endif %}  m-0 py-0 px-3 font-eveleth   text-white" data-toggle="tab" href="#mission{{ loop.index }}" role="tab">{{ item.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content bg-l-grey p-4">
+                    {% for item in post.get_field('more_info_block') %}
+                    <div class="tab-pane {% if loop.index == 1 %}active{% endif %}" id="mission{{ loop.index }}" role="tabpanel">{{ item.content }}</div>
+                    {% endfor %}
+                </div>
+
+            </div><!-- #primary -->
+        </div>
 
         <div class="row  py-3">
+
+
             <div class="col-12 mb-4">
                 <h2>{{ post._global_activities_title }}</h2>
             </div>
@@ -49,7 +73,7 @@
 
                 <div class="col-md-4 mb-4">
                     {%  set newsData = {
-                    link : activity.link,
+                    link : activity.category.link,
                     image : activity.image,
                     title : activity.title,
                     excerpt : activity.excerpt,
@@ -60,6 +84,48 @@
                 </div>
 
             {% endfor %}
+        </div>
+
+        <div class="row"> 
+            <h2 class="mb-4" >Our stories</h2>
+
+            <div class="col-12 content-area grey-border-block mt-md-0 mt-4 pb-4 mb-5 ">
+                    
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner" role="listbox">
+                            {% for item in post.get_field('_showcase') %}
+                                <div class="carousel-item  {% if loop.index == 1 %}active{% endif %}">
+                                    <div class="row">
+                                        <div class="col-md-10 offset-md-1 mb-4" >
+                                            <div class="p-4" style="{{ mixin.bgImg(item.image, 0.3) }}; min-height: 400px">
+                                                <h2 class="text-white font-eveleth text-uppercase">{{ item.title }}</h2>
+                                                <h3 class="text-orange font-eveleth text-uppercase">{{ item.sub_title }}</h3>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-5 offset-md-1 ">
+                                            {{ item.left_content }}
+                                        </div>
+                                        <div class="col-md-5">
+                                            {{ item.right_content }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </section>

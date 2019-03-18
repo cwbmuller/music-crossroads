@@ -281,83 +281,39 @@ h1.dpsp-page-title {
 	background: #0077b5;
 }
 
-.dpsp-social-platforms-sort-list li a.dpsp-list-remove {
-	float: right;
-	text-decoration: none;
-	color: #555;
-	font-size: 1.2em;
-	opacity: 0.15;
-	box-shadow: none;
-}
-
-.dpsp-social-platforms-sort-list li a.dpsp-list-remove:hover {
-	opacity: 1;
-}
-
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper {
-	position: relative;
-	float: left;
-	padding: 10px;
-	width: 70%;
-}
-
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input,
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input:focus,
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover input,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input:focus,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover input {
-	font-weight: bold;
-	font-size: 1em;
-	color: #444;
-	border: 1px solid #fff;
-	margin: 0;
-	outline: 0;
-	padding-right: 23px;
-	width: 200px;
-	background: #fff;
-	border-radius: 2px;
-}
-
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input {
-	border-color: #f1f1f1;
-}
-
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input {
-	cursor: default;
-	border-color: #fff !important;
-}
-
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input:focus, 
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover input {
-	background: #f7f7f7;
-	border: 1px solid #e6e6e6;
-}
-
-.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper .dpsp-icon,
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover .dpsp-icon,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover .dpsp-icon {
-	display: inline-block;
-	position: absolute;
-	top: 12px;
-	left: 190px;
-	color: #a9a9a9;
-	font-size: 13px;
-	opacity: 1;
-}
-
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-icon,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li .dpsp-icon,
-.dpsp-page-sidebar .dpsp-social-platforms-sort-list li:hover .dpsp-icon,
-.dpsp-page-mobile .dpsp-social-platforms-sort-list li:hover .dpsp-icon {
- 	opacity: 0 !important;
-}
-
 .dpsp-social-platforms-sort-list.empty li {
 	background: none;
 	border: 2px dashed #c1c1c1;
 	padding: 20px;
 }
+
+/**
+ * Sort list label input field
+ *
+ */
+.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper { position: relative; float: left; padding: 8px; }
+
+.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input { border: 0; line-height: 28px; width: 250px; border-radius: 3px; margin: 0; outline: 0; padding: 0 7px; font-weight: bold; font-size: 1em; color: #444; box-shadow: none; transition: background-color 0.1s ease-in-out; }
+.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input:placeholder-shown { font-weight: normal; font-style: italic; }
+
+.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input:focus,
+.dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper:hover input { background: #f5f5f5; }
+
+/* Remove styling for the edit label field from the floating sidebar tool */
+.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-input-wrapper input { cursor: default; background-color: transparent !important; }
+
+/**
+ * Sort list actions
+ *
+ */
+.dpsp-social-platforms-sort-list li .dpsp-list-actions { float: right; margin-right: 6px; }
+.dpsp-social-platforms-sort-list li .dpsp-list-actions a { position: relative; display: inline-block; color: #747474; text-decoration: none; line-height: 28px; vertical-align: middle; margin: 8px 2px 8px 0; padding: 0 6px 0 3px; border-radius: 3px; box-shadow: none; transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out; }
+.dpsp-social-platforms-sort-list li .dpsp-list-actions a .dashicons { position: relative; top: -1px; vertical-align: text-top; line-height: 18px; height: 18px; width: 18px; font-size: 18px; margin-right: 2px; }
+
+.dpsp-social-platforms-sort-list li .dpsp-list-actions a:hover { background: #f4f4f4; color: #353535; }
+
+/* Remove Edit Label action from floating sidebar tool */
+.dpsp-page-sidebar .dpsp-social-platforms-sort-list li .dpsp-list-actions .dpsp-list-edit-label { display: none; }
 
 
 /**********************************************/
@@ -843,9 +799,8 @@ h1.dpsp-page-title {
 /**********************************************/
 .dpsp-settings-sidebar {
 	float: left;
-	margin-top: 1em;
+	margin-top: 2.1em;
 	padding-left: 20px;
-	border-left: 1px solid #e5e5e5;
 	width: 345px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -863,6 +818,12 @@ h1.dpsp-page-title {
 	}
 
 }
+
+#dpsp-settings-sidebar-social-pug-pro { background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 1px 2px 1px rgba(0,0,0,0.02); }
+#dpsp-settings-sidebar-social-pug-pro h3 { margin-top: 0; }
+#dpsp-settings-sidebar-social-pug-pro p { position: relative; padding-left: 25px; color: #454545; }
+#dpsp-settings-sidebar-social-pug-pro p .dashicons { position: absolute; top: 0; left: 0; }
+#dpsp-settings-sidebar-social-pug-pro #dpsp-to-premium { margin-top: 10px; width: 100%; text-align: center; box-sizing: border-box; }
 
 #dpsp-settings-sidebar-opt-in-hound img { max-width: 35px; height: auto; margin-right: 10px; border-radius: 50px; vertical-align: middle; }
 

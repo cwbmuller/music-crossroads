@@ -33,6 +33,12 @@ class Theme extends Core {
 
 	/**
 	 * @api
+	 * @var string the version of the theme (ex: `1.2.3`)
+	 */
+	public $version;
+
+	/**
+	 * @api
 	 * @var TimberTheme|bool the TimberTheme object for the parent theme (if it exists), false otherwise
 	 */
 	public $parent = false;
@@ -84,6 +90,7 @@ class Theme extends Core {
 	protected function init( $slug = null ) {
 		$this->theme = wp_get_theme($slug);
 		$this->name = $this->theme->get('Name');
+		$this->version = $this->theme->get('Version');
 		$this->slug = $this->theme->get_stylesheet();
 
 		$this->uri = $this->theme->get_template_directory_uri();
@@ -107,7 +114,9 @@ class Theme extends Core {
 	 * @return  string the relative path to the theme (ex: `/wp-content/themes/my-timber-theme`)
 	 */
 	public function path() {
-		return URLHelper::get_rel_url($this->link());
+		// force = true to work with specifying the port
+		// @see https://github.com/timber/timber/issues/1739
+		return URLHelper::get_rel_url($this->link(), true); 
 	}
 
 	/**

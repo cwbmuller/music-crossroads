@@ -26,7 +26,7 @@
           border-left: 20px solid transparent;
           border-right: 20px solid transparent;
           content: '';
-          border-top: 20px solid $mc-m-grey;
+          border-top: 20px solid $mc-brown;
         }
       }
     }
@@ -54,5 +54,35 @@
         }
       }
     }
+  }
+  #artist-container {
+    
+      li.nav-item {
+          border-right: 1px solid white;
+  
+        a.nav-link {
+          border-radius: 50%;
+          padding: 0 .5rem!important;
+          margin: 0 0.5rem!important;
+          @include breakpoint(phone) {
+            font-size: 10px;
+          }
+          &.active,&:hover {
+            position: relative;
+            background: white;
+            color: $mc-d-grey!important;
+            
+          }
+          &:after {
+            content: none;
+          }
+        }
+        &:last-of-type,&:first-of-type {
+          
+            border-right: none
+          
+        }
+      }
+    
   }
 }

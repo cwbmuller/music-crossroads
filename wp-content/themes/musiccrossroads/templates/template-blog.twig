@@ -14,9 +14,9 @@
             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=181883778533844";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
-<div class="wrapper country-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+<div class="wrapper news-wrapper" id="page-wrapper" xmlns="http://www.w3.org/1999/html">
 
-    <header class="" style="{{ mixin.bgImgGreen(post.thumbnail.src,0.5)}}" >
+    <header class="" style="{{ mixin.bgImgOrange(post.thumbnail.src,0.5)}}" >
         <div  id="header" class=" container" >
 
             <div class="row">
@@ -67,28 +67,9 @@
                     <div class="col-12">
                         <div class="loading-results loading-results-news"></div>
                         <div id="news-container" class="row">
-                            {% for article in news %}
+                                {% embed "template-news-item.twig" %}
 
-                            <div class="col-md-6 mb-4">
-
-                                {%  set newsData = {
-                                    link : article.link,
-                                    cats : article.terms('category'),
-                                    image : article.thumbnail.src,
-                                    title : article.title,
-                                    date : article.post_date|date('d M Y'),
-                                    tags : article.terms('tags')
-
-
-
-
-                                } %}
-
-                                 {{ mixin.newsBlock(newsData) }}
-
-                            </div>
-
-                            {% endfor %}
+                                {% endembed %}
                         </div>
                     </div>
                 </div>

@@ -63,6 +63,21 @@ function theme_enqueue_styles() {
 
 include('functions-timber.php');
 
+
+/*
+* Add function to only allow Gutenberg on Blog posts and Course post types
+*/
+add_filter('use_block_editor_for_post', 'custom_disable_gutenberg', 5, 2);
+
+function custom_disable_gutenberg($current_status, $post)
+{
+    // Disable gutenberg for everypost type except posts and courses
+    if (($post->post_type !== 'post')) {
+        return false;
+    }
+    return $current_status;
+}
+
 function custom_admin_js() {
     echo '<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAoosYa_BIYD1SNc6JTKnYVEei2OZhw2NM"></script>';
 }

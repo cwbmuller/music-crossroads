@@ -1,10 +1,10 @@
 === Timber ===
 Contributors: jarednova, connorjburton, lggorman
 Tags: template engine, templates, twig
-Requires at least: 3.7
-Stable tag: 1.4.1
-Tested up to: 4.8.1
-PHP version: 5.3.0 or greater
+Requires at least: 4.7.12
+Tested up to: 5.1
+Stable tag: 1.9.2
+Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,134 @@ _Twig is the template language powering Timber; if you need a little background 
 
 == Changelog ==
 
+= Develop (next release) =
+
+**Fixes and improvements**
+- Please add bullet points here with your PR. The heading for this section will get the correct version number once released.
+
+**Changes for Theme Developers**
+- Please add bullet points here with your PR. The heading for this section will get the correct version number once released.
+
+= 1.9.2 =
+
+**Changes for Theme Developers**
+- You can use `Timber::context()` as an alias for `Timber::get_context()`. It's prettier, it also will prep you for Timber 2.0 where `Timber::get_context()` is deprecated #1938
+
+**Fixes and improvements**
+- Integration of newest version of Upstatement/Routes which uses (newest) version 1.2.0 of AltoRouter #1946 (thanks @seanstickle)
+
+= 1.9.1 =
+
+**Changes for Theme Developers**
+- You can now pass params to `{{ user.avatar }}` such as `{{ user.avatar({size: 128}) }}` #1730 (thanks @palmiak)
+
+**Fixes and improvements**
+- Fix for PHP 7.3 compatibility #1915 (thanks @palmiak)
+- Fix for URLHelper::is_external for URLs without protocol #1924 (thanks @hacknug)
+
+= 1.9.0 =
+Timber now requires PHP 5.6 or greater. While Timber may work on PHP 5.5 and older versions; support will no longer be maintained in future versions.
+
+**Changes for Theme Developers**
+- Adds support for roles on the user object. Example: `{{ post.author.roles }}` which returns an array of roles #1898 (thanks @palmiak)
+- Adds support for capabilities on the user object. Example: `{{post.author.can("moderate_comments")}}` which returns true or false #1898 (thanks @palmiak)
+
+**Fixes and improvements**
+* Fix an error with handling args for nav menus #1865 (thanks @palmiak)
+* Allowed tags won't be stripped when automatically generating an excerpt #1886 (thanks @davefx)
+* Fix for JPG/WEBP conversion for some older PHP installs #1854
+
+= 1.8.4 =
+**Fixes and improvements**
+* Resolve potential pagination issue #1642 (thanks @gchtr)
+
+= 1.8.3 =
+**Fixes and improvements**
+* Hotfix for PHP versions 5.5 and 5.4
+
+= 1.8.2 =
+**Changes for Theme Developers**
+- You can now change the query parameters that are used when getting a post’s terms through `$post->terms()`. #1802
+- New attributes for responsive images `post.thumbnail.srcset` and `post.thumbnail.sizes` #1819 (thanks @maxxwv)
+
+**Fixes and improvements**
+- Using WordPress's `wp_check_filetype_and_ext` for the mime_type mess #1843 (thanks @gchtr)
+- Fixed how some previewed data (when looking at an unsaved post from the admin) is handled so that parenting relationships match what happens when published #1752 
+- Timber\Menu now respects modifications sent through WP's `wp_nav_menu_objects` filter #1814 (thanks @pascalknecht)
+
+= 1.8.1 =
+**Fixes and improvements**
+- Fixed how mime_type was figured out in some PHP installs #1798
+
+= 1.8.0 =
+**Changes for Theme Developers**
+- Webp is now supported as a conversion format ( `{{ post.thumbnail.src | towebp }}` ) @mhz-tamb @pascalknecht #1638 #1777 #1780
+- Timber now recognizes that SVGs shouldn't be resized as if they are rasters (for retina, etc.) @palmiak #1726 #1736
+
+**Fixes and improvements**
+- Clean-up on i18n function calls @drzraf #1753
+- Fixed some odd port handling @pascalknecht  #1760
+- Fixed how terms are retrived through a post @shvlv #1729
+
+= 1.7.1 =
+**Fixes and improvements**
+- Fixes issues previewing custom fields with ACF #1712
+- Fixes some edge cases with Menu Item classes #1709
+- Improved efficiency of Post class instantiation #1660
+
+= 1.7.0 =
+**Fixes and improvements**
+- Fixed some issues with animated gif resizing when Imagick isn't available #1653
+- Fixed incorrect reporting of depth level in some comments #1648
+- Fixed issues with preview permissions #1607
+- Fixed issue with image resize in some WPML setups #1625
+- Fixes compatibility issues with Twig 2.4 (and later) #1641
+
+
+= 1.6.0 =
+**Changes for Theme Developers**
+- You can now easily access all of a MenuItem's master object properties through `{{ item.master_object }}` What's a master object? It's when a Menu Item has been created directly from a Post or Term in the WP Admin #1577 #1572
+- Enabled methods for getting media from posts, you can now do `{{ post.video }}`, `{{ post.audio }}` and `{{ post.gallery }}` to retrieve media include in the body of a post #1583 (thanks @marciojc)
+- You can now get ACF's field object data: `{{ post.field_object('my_field').key }}` #1597 #1599 (thanks @palmiak)
+- You can use the `|filter` filter on arrays to return items like so:
+```
+{% for post in posts|filter('my-slug') %}
+    {{ post.title }}
+{% endfor %}
+```
+by default it looks for slugs, but you can also get into particular fields:
+```
+{% for post in posts|filter({post_title: "Cheese", post_content:"Method Man"}) %}
+    {{ post.title }}
+{% endfor %}
+```
+... this will return posts that match both parameters. #1594 thanks @pablo-sg-pacheco
+
+= 1.5.2 =
+
+**Fixes and improvements**
+- Fixed a bug where multi-level menus weren't receiving proper data
+
+= 1.5.1 =
+
+**Fixes and improvements**
+- Transparent PNGs now work with letterboxing #1554 (thanks @nlemoine)
+
+**Changes for Theme Developers**
+- You can now interact with Terms in Twig the same as PHP (ex: `{% set term = Term(34, "arts") %}`). The second arg will default to a subclass of Timber\Term if it exists #1159 (@jarednova)
+- You can now get {{ theme.version }} to get the theme version! #1555 (thanks @herrschuessler)
+
+= 1.5.0 =
+
+**Fixes and improvements**
+- `home_url` value is now cached, performance win for polylang! #1507 (thanks @oxyc)
+- Post::$css_class is only fetched if requested #1522 (thanks @ruscon)
+- Improved flexibility of PostCollection to be filterable #1544 (thanks @gchtr)
+- More test coverage
+
+**Changes for Theme Developers**
+- None! But the above fixes have significant changes in the code which necessitated the ".x" version jump
+
 = 1.4.1 =
 
 **Fixes and improvements**
@@ -38,7 +166,7 @@ _Twig is the template language powering Timber; if you need a little background 
 
 **Fixes and Improvements**
 - Improve GIF resize performance #1495 (thanks @ahallais)
-- Fix for get_host which could generate an unncessary warning #1490 (thanks @ahallais)
+- Fix for get_host which could generate an unnecessary warning #1490 (thanks @ahallais)
 
 **Changes for Theme Developers**
 - Improve loader performance and logic #1476 #1489 #1491 (thanks @heino). This introduces potential changes if you were loading templates in a non-standard way and with multiple sources (ex: from a theme and plugin directory). Non-existing templates are no longer passed all the way to Twig’s `render()`, which currently generates an exception.
@@ -606,23 +734,23 @@ Misc fixes to documentation
 == Installation ==
 
 1. Activate the plugin through the 'Plugins' menu in WordPress
-2. For an example, try modifying your home.php or index.php with something like this:
+2. For an example, try modifying your `home.php` or `index.php` with something like this:
 
-```
+`
 $context = array();
 $context['message'] = 'Hello Timber!';
 Timber::render( 'welcome.twig', $context );
-```
+`
 
 Then create a subdirectory called `views` in your theme folder. Then create a file `views/welcome.twig` with these contents:
 
-```
+`
 <div class="welcome">
     <h3>{{ message }}</h3>
 </div>
-```
+`
 
-That’s Timber!
+When you visit this page, you'll see both the data from PHP come through as you've marked it up. For more, continue with the official [Getting Started Guide](https://timber.github.io/docs/getting-started/)
 
 == Support ==
 

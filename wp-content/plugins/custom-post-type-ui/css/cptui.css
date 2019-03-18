@@ -28,6 +28,10 @@
   cursor: pointer;
 }
 
+.posttypesui .required, .taxonomiesui .required {
+  color: red;
+}
+
 .cptui-table #excerpt {
   display: inline-block;
   height: 16px;
@@ -35,7 +39,7 @@
   width: auto;
 }
 
-.cptui-table td.outter {
+.cptui-table td.outer {
   vertical-align: top;
   width: 50%;
 }
@@ -59,13 +63,17 @@
   margin-top: 15px;
 }
 
-.cptui-table #slugchanged {
+.cptui-table #slugchanged, .cptui-table #slugexists {
   color: red;
   font-weight: bold;
 }
 
-.cptui-table #slugchanged.hidemessage {
+.cptui-table #slugchanged.hidemessage, .cptui-table #slugexists.hidemessage {
   display: none;
+}
+
+.cpt-ui_page_cptui_tools .cptui-table .outer p {
+  padding: 0 4px;
 }
 
 .cptui-support #support .question {
@@ -96,10 +104,6 @@
 
 .cptui-support #support li {
   position: relative;
-}
-
-.required {
-  color: red;
 }
 
 .cptui-field-description {
@@ -213,11 +217,6 @@
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.js #cptui_select_post_type input[type='submit'],
-.js #cptui_select_taxonomy input[type='submit'] {
-  display: none;
 }
 
 #togglelabels {
@@ -349,6 +348,7 @@ fieldset .cptui-help {
   -ms-grid-row-align: auto;
       align-self: auto;
 }
+
 .wdspromos-about p {
   padding: 0 5px;
 }
@@ -381,7 +381,7 @@ fieldset .cptui-help {
   min-width: 463px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .cptui-badge {
     padding-top: 142px;
     height: 50px;
@@ -399,21 +399,24 @@ fieldset .cptui-help {
   .cptui-table #description {
     width: 100%;
   }
-
   .wdspromos-about {
     -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+        flex-wrap: wrap;
   }
-
   .wdspromos-about p {
     margin: 5px auto;
   }
-
   .wdspromos-about p:nth-child(1) {
     padding-left: 5px;
   }
-
   .wdspromos-about p:nth-child(4) {
     padding-right: 5px;
+  }
+  .cptui-table td.outer {
+    width: 100%;
+  }
+  #cptui-audit-textarea,
+  #cptui_debug_info_email {
+    width: 100%;
   }
 }
