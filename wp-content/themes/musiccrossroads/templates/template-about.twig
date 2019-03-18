@@ -72,8 +72,14 @@
             {% for member in team %}
                 {% if member.country.slug != cat %}
                 <div class="square-me col-md-3 my-3 text-center text-white {% if count == 1 or count > 3 %}bg-orange{% endif %} {% if count == 2 %}bg-green{% endif %} {% if count == 3 %}bg-brown{% endif %}">
-                    <div class="inner">
-                        <h4 class="font-eveleth center-me">{{  member.country.name }}</h4>
+                    <div class="row h-100 align-items-center justify-content-center">
+                        <div>
+                            {% if member.country.team_link %}
+                            <a class="text-white text-underline" href={{member.country.team_link}}><h4 class="font-eveleth ">{{  member.country.name }}</h4>(View team)</a>
+                            {% else %}
+                            <h4 class="font-eveleth ">{{  member.country.name }}</h4>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {%  set count = count + 1 %}

@@ -32,6 +32,7 @@ if ( class_exists( 'Timber' ) ) {
 
         foreach ($team as $member) {
             $member->country = $country;
+            $member->country->team_link = get_term_meta($member->country->term_id,'team_country_link',true );
             $context['team'][] = $member;
         }
     }
